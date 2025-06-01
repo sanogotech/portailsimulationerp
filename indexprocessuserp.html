@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portail Pédagogique ERP Interactif</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-color: #2c3e50; /* Dark Blue Grey */
+      --secondary-color: #3498db; /* Bright Blue */
+      --accent-color: #e74c3c; /* Red Orange */
+      --light-color: #ecf0f1; /* Light Grey */
+      --dark-color: #2c3e50; /* Dark Blue Grey */
+      --text-color: #34495e; /* Darker Grey Blue */
+    }
+
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text-color);
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: white !important;
+    }
+
+    .navbar-nav .nav-link {
+      color: rgba(255, 255, 255, 0.75);
+      transition: color 0.3s ease;
+    }
+
+    .navbar-nav .nav-link.active,
+    .navbar-nav .nav-link:hover {
+      color: white;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      padding: 6rem 0;
+      margin-bottom: 3rem;
+      border-radius: 0 0 30px 30px;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-section h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+    }
+
+    .hero-section p.lead {
+      font-size: 1.3rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-hero {
+      padding: 0.8rem 2.5rem;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-hero.btn-light {
+      color: var(--primary-color);
+    }
+
+    .btn-hero.btn-light:hover {
+      background-color: var(--light-color);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-hero.btn-outline-light:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 2.5rem;
+    }
+
+    .card {
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      height: 100%;
+      background-color: white;
+    }
+
+    .card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+
+    .card-header {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: bold;
+      padding: 1rem 1.5rem;
+      border-bottom: none;
+      border-radius: 15px 15px 0 0;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .module-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.2rem;
+      color: var(--secondary-color);
+    }
+
+    .simulation-panel {
+      background-color: white;
+      border-radius: 15px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      margin-top: 3rem;
+      animation: slideIn 0.8s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .process-step {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding: 1.2rem;
+      background-color: var(--light-color);
+      border-radius: 10px;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .process-step:hover {
+      background-color: #d6eaf8;
+      border-color: var(--secondary-color);
+    }
+
+    .process-step.active {
+      background-color: #cce0f0;
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+    }
+
+    .step-number {
+      background-color: var(--secondary-color);
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1.2rem;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .btn-simulation {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .btn-simulation:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .document-preview {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1.5rem;
+      background-color: white;
+      margin-top: 1.5rem;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .document-title {
+      font-weight: bold;
+      color: var(--primary-color);
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.2rem;
+      font-size: 1.2rem;
+    }
+
+    .highlight {
+      background-color: #fffde7;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .linked-modules {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .linked-module {
+      background-color: var(--light-color);
+      padding: 0.4rem 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid var(--light-color);
+    }
+
+    .linked-module:hover {
+      background-color: #d6eaf8;
+      border-color: var(--secondary-color);
+    }
+
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+      padding: 3rem 0;
+      margin-top: 4rem;
+      border-radius: 30px 30px 0 0;
+      box-shadow: 0 -6px 25px rgba(0,0,0,0.15);
+    }
+
+    footer h3 {
+      font-weight: 700;
+    }
+
+    /* Animation pour les étapes de workflow */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); box-shadow: 0 0 0 0.5rem rgba(52, 152, 219, 0.4); }
+      100% { transform: scale(1); }
+    }
+
+    .pulse {
+      animation: pulse 1.5s infinite;
+    }
+
+    /* Modal Styling */
+    .modal-content {
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .modal-header {
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 15px 15px 0 0;
+      border-bottom: none;
+      padding: 1.5rem;
+    }
+
+    .modal-title {
+      font-weight: bold;
+    }
+
+    .modal-body {
+      padding: 2rem;
+      color: var(--text-color);
+    }
+
+    .modal-body strong {
+      color: var(--secondary-color);
+    }
+
+    .modal-body ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .modal-body ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-body ul li i {
+      margin-right: 0.5rem;
+      color: var(--secondary-color);
+    }
+
+    /* Search and Filter */
+    #moduleSearch, #moduleFilter {
+      border-radius: 8px;
+      border-color: #ced4da;
+    }
+
+    .input-group-text {
+      border-radius: 8px 0 0 8px;
+      background-color: var(--light-color);
+      border-color: #ced4da;
+      color: var(--primary-color);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .hero-section {
+        padding: 4rem 0;
+      }
+      .hero-section h1 {
+        font-size: 2.8rem;
+      }
+      .hero-section p.lead {
+        font-size: 1.1rem;
+      }
+      .btn-hero {
+        padding: 0.6rem 2rem;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+        border-radius: 0 0 20px 20px;
+      }
+      .hero-section h1 {
+        font-size: 2.2rem;
+      }
+      .hero-section p.lead {
+        font-size: 1rem;
+      }
+      .module-icon {
+        font-size: 2rem;
+      }
+      .process-step {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+      }
+      .step-number {
+        margin-bottom: 0.8rem;
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-diagram-3-fill me-2"></i>ERP Interactif
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#"><i class="bi bi-house-door me-1"></i>Accueil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#simulations"><i class="bi bi-play-circle me-1"></i>Simulations</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#modules"><i class="bi bi-grid me-1"></i>Modules</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about"><i class="bi bi-info-circle me-1"></i>À propos</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section">
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-3">Portail Pédagogique ERP</h1>
+      <p class="lead mb-4">Découvrez le fonctionnement d'un ERP à travers des simulations interactives et des explications détaillées</p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="#simulations" class="btn btn-light btn-lg px-4 btn-hero">
+          <i class="bi bi-play-fill me-2"></i>Commencer une simulation
+        </a>
+        <a href="#modules" class="btn btn-outline-light btn-lg px-4 btn-hero">
+          <i class="bi bi-grid me-2"></i>Explorer les modules
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="container mb-5 py-4">
+    <div class="row">
+      <div class="col-lg-10 mx-auto text-center">
+        <h2 class="fw-bold mb-4">Qu'est-ce qu'un ERP ?</h2>
+        <p class="lead text-muted">Un <strong class="text-primary">ERP (Enterprise Resource Planning)</strong> est un système intégré qui permet de gérer l'ensemble des processus métiers d'une entreprise en un seul système d'information. Il connecte les différents services (ventes, achats, comptabilité, RH, etc.) et automatise les flux d'information entre eux, garantissant ainsi une <span class="highlight">vision unifiée et en temps réel de l'activité</span>.</p>
+        <p class="text-muted">L'objectif principal d'un ERP est d'améliorer l'efficacité opérationnelle, de réduire les coûts et de faciliter la prise de décision en fournissant des données fiables et accessibles à tous les niveaux de l'organisation.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="modules" class="container mb-5 py-4">
+    <h2 class="text-center fw-bold mb-4"><i class="bi bi-grid me-2"></i>Modules ERP Essentiels</h2>
+    <p class="text-center mb-5 text-muted">Explorez les principaux modules d'un ERP, leurs fonctionnalités et leurs interactions.</p>
+
+    <div class="row mb-4 g-3">
+      <div class="col-md-6">
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input type="text" id="moduleSearch" class="form-control" placeholder="Rechercher un module par nom ou description...">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <select id="moduleFilter" class="form-select">
+          <option value="">Toutes les catégories</option>
+          <option value="finance">Finance</option>
+          <option value="sales">Ventes & CRM</option>
+          <option value="logistics">Logistique & Production</option>
+          <option value="hr">Ressources Humaines</option>
+          <option value="cross-functional">Transverse & IT</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="moduleList">
+      </div>
+  </section>
+
+  <section id="simulations" class="container mb-5 py-4">
+    <h2 class="text-center fw-bold mb-4"><i class="bi bi-play-circle me-2"></i>Simulations Interactives</h2>
+    <p class="text-center mb-5 text-muted">Sélectionnez un scénario pour comprendre comment les différents modules interagissent entre eux et impactent les processus métier.</p>
+
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+          <div class="card-header">
+            <i class="bi bi-person-lines-fill me-2"></i>Ventes et Facturation
+          </div>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title fw-bold">Processus de vente complet</h5>
+            <p class="card-text text-muted">Suivez le parcours d'une vente depuis la création d'un client dans le CRM jusqu'à l'écriture comptable finale.</p>
+            <div class="mt-auto">
+              <button class="btn btn-simulation w-100" onclick="startSimulation('sales')">
+                <i class="bi bi-play-fill me-2"></i>Démarrer la simulation
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+          <div class="card-header">
+            <i class="bi bi-truck me-2"></i>Achats et Stock
+          </div>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title fw-bold">Gestion des stocks et réapprovisionnement</h5>
+            <p class="card-text text-muted">Découvrez comment le système gère les ruptures de stock, les commandes fournisseurs et les réceptions de marchandises.</p>
+            <div class="mt-auto">
+              <button class="btn btn-simulation w-100" onclick="startSimulation('inventory')">
+                <i class="bi bi-play-fill me-2"></i>Démarrer la simulation
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+          <div class="card-header">
+            <i class="bi bi-person-vcard-fill me-2"></i>RH et Paie
+          </div>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title fw-bold">Cycle de vie d'un employé</h5>
+            <p class="card-text text-muted">Suivez le parcours d'un employé depuis son embauche jusqu'à la génération de la paie et les écritures comptables associées.</p>
+            <div class="mt-auto">
+              <button class="btn btn-simulation w-100" onclick="startSimulation('hr')">
+                <i class="bi bi-play-fill me-2"></i>Démarrer la simulation
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="simulationPanel" class="simulation-panel mt-5" style="display: none;">
+      <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+        <h3 id="simulationTitle" class="mb-0 text-primary"></h3>
+        <button class="btn btn-outline-secondary" onclick="resetSimulation()">
+          <i class="bi bi-x-lg me-1"></i>Fermer la simulation
+        </button>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6">
+          <h4 class="text-secondary mb-3"><i class="bi bi-list-ol me-2"></i>Étapes du processus</h4>
+          <div id="simulationSteps" class="list-group">
+            </div>
+        </div>
+        <div class="col-lg-6">
+          <h4 class="text-secondary mb-3"><i class="bi bi-file-earmark-text me-2"></i>Détails de l'étape</h4>
+          <div id="currentStepDetails">
+            <p class="text-muted">Sélectionnez une étape à gauche pour afficher ses détails.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="container mb-5 py-4">
+    <div class="row">
+      <div class="col-lg-10 mx-auto text-center">
+        <h2 class="fw-bold mb-4">À propos de ce portail</h2>
+        <p class="lead text-muted">Ce portail pédagogique a été conçu pour aider les étudiants et professionnels à comprendre le fonctionnement d'un ERP de manière interactive et approfondie.</p>
+        <p class="text-muted">Il met en évidence les principaux modules et leurs interactions à travers des simulations réalistes basées sur des flux métier courants. Les données utilisées sont fictives mais représentatives des dynamiques réelles dans une entreprise.</p>
+        <div class="mt-4">
+          <h5 class="fw-bold text-primary mb-3">ERP open source référencés</h5>
+          <div class="d-flex flex-wrap justify-content-center gap-2">
+            <span class="badge bg-secondary p-2">Odoo</span>
+            <span class="badge bg-secondary p-2">ERPNext</span>
+            <span class="badge bg-secondary p-2">Dolibarr</span>
+            <span class="badge bg-secondary p-2">Axelor</span>
+            <span class="badge bg-secondary p-2">iDempiere</span>
+            <span class="badge bg-secondary p-2">Tryton</span>
+            <span class="badge bg-secondary p-2">OpenProject</span>
+            <span class="badge bg-secondary p-2">Metabase</span>
+            <span class="badge bg-secondary p-2">Nextcloud</span>
+            <span class="badge bg-secondary p-2">Zammad</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container text-center">
+      <div class="mb-4">
+        <i class="bi bi-diagram-3-fill fs-1"></i>
+        <h3 class="mt-2 text-white">ERP Interactif</h3>
+      </div>
+      <p class="mb-4">Un portail pédagogique pour comprendre le fonctionnement des ERP</p>
+      <p class="small text-muted">© 2023-2025 - Tous droits réservés</p>
+      <div class="mt-3">
+        <a href="#" class="text-white mx-2"><i class="bi bi-linkedin"></i></a>
+        <a href="#" class="text-white mx-2"><i class="bi bi-github"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal fade" id="moduleModal" tabindex="-1" aria-labelledby="moduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="moduleModalTitle"></h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="moduleModalBody">
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Data for ERP modules, with comprehensive details for educational purposes.
+    const modules = [
+      {
+        id: 1,
+        name: "CRM (Customer Relationship Management)",
+        description: "Gestion des relations clients",
+        category: "sales",
+        icon: "bi-person-lines-fill",
+        details: {
+          definition: "Le module CRM (Customer Relationship Management) permet de gérer l'ensemble des interactions avec les clients et prospects tout au long du cycle de vie client.",
+          objectives: "Centraliser les informations clients, suivre les opportunités de vente, améliorer la satisfaction et la fidélisation client, optimiser les campagnes marketing.",
+          inputs: "Leads (contacts potentiels), données de contact clients, historique des communications (appels, emails), rendez-vous, données de ventes passées, retours clients.",
+          outputs: "Base de données clients complète, pipeline des ventes, prévisions de ventes, analyses de satisfaction client, rapports d'activité commerciale, listes segmentées pour le marketing.",
+          links: ["Ventes", "Marketing", "Facturation", "SAV / Support", "BI / Reporting"],
+          examples: "Un commercial peut accéder instantanément à l'historique complet des interactions d'un client, y compris les achats et les demandes de support, avant une nouvelle proposition.",
+          openSource: "Odoo CRM, ERPNext, Dolibarr, Axelor (avec module CRM)"
+        }
+      },
+      {
+        id: 2,
+        name: "Ventes et Commandes",
+        description: "Gestion des devis et commandes clients",
+        category: "sales",
+        icon: "bi-cart-check",
+        details: {
+          definition: "Le module Ventes permet de créer des devis, de les convertir en commandes clients, et de suivre l'ensemble du processus de vente jusqu'à la livraison.",
+          objectives: "Automatiser la création des documents commerciaux, suivre l'état des commandes, gérer les tarifs et remises, améliorer la rapidité de traitement des ventes.",
+          inputs: "Informations clients (issues du CRM), catalogue produits, tarifs en vigueur, conditions de paiement, demandes de devis.",
+          outputs: "Devis, bons de commande clients, confirmations de commande, statistiques de vente par produit/client/région, alertes sur les commandes en retard.",
+          links: ["CRM", "Stock", "Facturation", "Comptabilité", "Supply Chain"],
+          examples: "Conversion rapide d'un devis accepté en commande client, déclenchant automatiquement une vérification des stocks disponibles et une demande de préparation logistique.",
+          openSource: "Odoo Sales, Tryton, ERPNext"
+        }
+      },
+      {
+        id: 3,
+        name: "Facturation et Recouvrement",
+        description: "Génération et suivi des factures",
+        category: "finance",
+        icon: "bi-receipt",
+        details: {
+          definition: "Le module Facturation génère les factures clients et fournisseurs, gère les avoirs, les acomptes et assure le suivi des paiements et des impayés.",
+          objectives: "Automatiser la facturation, gérer les échéances de paiement, réduire les retards de paiement, simplifier le processus de recouvrement, garantir la conformité fiscale.",
+          inputs: "Bons de commande validés, bons de livraison, informations clients, conditions de paiement, données de TVA.",
+          outputs: "Factures clients, factures fournisseurs, avoirs, relances pour impayés, rapports d'analyse du chiffre d'affaires, intégration avec la comptabilité.",
+          links: ["Ventes", "Achats", "Comptabilité", "Trésorerie", "CRM"],
+          examples: "Génération automatique d'une facture client dès la confirmation de livraison d'une commande, avec envoi immédiat par email et enregistrement comptable.",
+          openSource: "Dolibarr, Metasfresh, Odoo Accounting"
+        }
+      },
+      {
+        id: 4,
+        name: "Comptabilité Générale et Analytique",
+        description: "Gestion financière complète",
+        category: "finance",
+        icon: "bi-calculator",
+        details: {
+          definition: "Le module Comptabilité enregistre toutes les opérations financières de l'entreprise (achats, ventes, banques, salaires) et permet de produire les états financiers légaux.",
+          objectives: "Tenir une comptabilité rigoureuse et conforme, produire le bilan et le compte de résultat, suivre la rentabilité par activité (comptabilité analytique), gérer la TVA et les déclarations fiscales.",
+          inputs: "Factures clients, factures fournisseurs, relevés bancaires, écritures de paie, opérations diverses, budgets.",
+          outputs: "Journaux comptables (ventes, achats, banque, OD), grand livre, balance des comptes, bilan, compte de résultat, déclarations fiscales (TVA, IS), rapports d'analyse financière, tableaux de bord de gestion.",
+          links: ["Facturation", "Paie", "Achats", "Ventes", "Trésorerie", "Budgets", "BI / Reporting"],
+          examples: "Enregistrement automatique des écritures comptables à partir des factures validées, permettant un suivi en temps réel de la performance financière de l'entreprise.",
+          openSource: "Odoo Accounting, iDempiere, PostBooks (ERPNext finance)"
+        }
+      },
+      {
+        id: 5,
+        name: "Achats et Approvisionnements",
+        description: "Gestion des commandes fournisseurs",
+        category: "logistics",
+        icon: "bi-cart-plus",
+        details: {
+          definition: "Le module Achats gère l'ensemble du processus d'acquisition de biens et services, de la demande d'achat à la réception et au paiement du fournisseur.",
+          objectives: "Optimiser les coûts d'achat, gérer les relations avec les fournisseurs, assurer la disponibilité des matières premières et des produits, contrôler les dépenses et le respect des budgets.",
+          inputs: "Demandes d'achat internes, catalogues fournisseurs, conditions tarifaires négociées, besoins en stock (MRP), réceptions de marchandises.",
+          outputs: "Demandes de prix, bons de commande fournisseurs, accusés de réception, rapports d'analyse des achats (par fournisseur, catégorie), évaluations fournisseurs.",
+          links: ["Stock", "Comptabilité", "Budgets", "Production (MRP)", "Supply Chain"],
+          examples: "Génération automatique d'une commande fournisseur lorsque le stock d'un produit atteint son seuil de réapprovisionnement, avec sélection du fournisseur le plus avantageux.",
+          openSource: "Odoo Purchasing, ERPNext, Dolibarr"
+        }
+      },
+      {
+        id: 6,
+        name: "Gestion des Stocks et Entrepôts (WMS)",
+        description: "Suivi des inventaires et mouvements",
+        category: "logistics",
+        icon: "bi-box-seam",
+        details: {
+          definition: "Le module Stock permet de gérer les entrées, sorties, transferts et inventaires de marchandises, en optimisant l'utilisation des espaces d'entreposage.",
+          objectives: "Optimiser les niveaux de stock (éviter les ruptures et les sur-stocks), assurer la traçabilité des produits, gérer les emplacements de stockage, améliorer la préparation des commandes et les inventaires.",
+          inputs: "Bons de réception, bons de livraison, ordres de fabrication, résultats d'inventaire, données de consommation.",
+          outputs: "Niveaux de stock en temps réel, alertes de seuil, valorisation du stock, rapports de rotation des stocks, historiques de mouvements, plans d'inventaire.",
+          links: ["Ventes", "Achats", "Production (MRP)", "Supply Chain", "Facturation"],
+          examples: "Mise à jour automatique des stocks après une vente ou une réception de marchandises, avec alerte en cas de niveau critique pour déclencher un réapprovisionnement.",
+          openSource: "Odoo Inventory, OpenBoxes, Infor SCM"
+        }
+      },
+      {
+        id: 7,
+        name: "Supply Chain Management (SCM)",
+        description: "Optimisation des flux logistiques",
+        category: "logistics",
+        icon: "bi-truck",
+        details: {
+          definition: "Le module SCM (Supply Chain Management) coordonne et optimise l'ensemble des flux de la chaîne logistique, de l'approvisionnement à la livraison client.",
+          objectives: "Réduire les délais et les coûts logistiques, améliorer la traçabilité des produits, optimiser les plans de transport, synchroniser l'ensemble de la chaîne de valeur.",
+          inputs: "Commandes clients, prévisions de vente, données de stock, informations fournisseurs, données transporteurs, capacités de production.",
+          outputs: "Plans de transport optimisés, suivis de livraison en temps réel, indicateurs de performance logistique, alertes sur les ruptures de chaîne, simulations de scénarios.",
+          links: ["Stock", "Achats", "Ventes", "Production (MRP)", "BI / Reporting"],
+          examples: "Planification automatique des tournées de livraison en fonction des commandes, des contraintes de transport et des délais clients, avec suivi en temps réel du statut.",
+          openSource: "ERPNext, Tryton (avec modules logistiques)"
+        }
+      },
+      {
+        id: 8,
+        name: "Ressources Humaines (RH)",
+        description: "Gestion administrative et développement du personnel",
+        category: "hr",
+        icon: "bi-people",
+        details: {
+          definition: "Le module RH gère l'ensemble des informations et processus liés aux employés : recrutement, contrats, congés, carrières, formations.",
+          objectives: "Centraliser les données du personnel, automatiser les processus administratifs RH, suivre les compétences et les carrières, améliorer l'engagement des employés.",
+          inputs: "Dossiers d'employés, contrats de travail, demandes de congés/absences, rapports d'évaluation, plans de formation.",
+          outputs: "Organigrammes, base de données du personnel, historiques de carrière, rapports RH (turnover, absentéisme), plans de formation personnalisés.",
+          links: ["Paie", "Planning", "Projets", "Temps de travail", "Comptabilité"],
+          examples: "Suivi complet du parcours professionnel d'un employé, de son embauche à son départ, en passant par ses formations et ses évolutions de poste.",
+          openSource: "Odoo HR, OrangeHRM, Sentrifugo"
+        }
+      },
+      {
+        id: 9,
+        name: "Paie et Déclarations Sociales",
+        description: "Calcul des salaires et gestion des charges",
+        category: "hr",
+        icon: "bi-cash-stack",
+        details: {
+          definition: "Le module Paie calcule les salaires nets, bruts, les cotisations sociales et génère les bulletins de paie et les déclarations sociales obligatoires.",
+          objectives: "Automatiser et sécuriser le calcul de la paie, garantir la conformité aux réglementations sociales et fiscales, simplifier la gestion des cotisations et des absences.",
+          inputs: "Données RH (contrats, temps de travail, absences, primes), barèmes de cotisations, réglementations fiscales et sociales.",
+          outputs: "Bulletins de paie, états des cotisations sociales, déclarations sociales nominatives (DSN), écritures comptables de paie, bilans sociaux.",
+          links: ["RH", "Comptabilité", "Temps de travail", "Budgets"],
+          examples: "Calcul automatique du salaire net d'un employé en intégrant les heures travaillées, les primes, les absences et les différentes cotisations sociales.",
+          openSource: "Odoo Payroll (module), Sentrifugo (gestion paie simple)"
+        }
+      },
+      {
+        id: 10,
+        name: "Gestion de Projets",
+        description: "Planification et suivi des projets",
+        category: "cross-functional",
+        icon: "bi-kanban",
+        details: {
+          definition: "Le module Projets permet de planifier, organiser, suivre et contrôler l'avancement des projets de l'entreprise, des ressources allouées aux budgets.",
+          objectives: "Optimiser la gestion des projets, respecter les délais et les budgets, allouer efficacement les ressources (humaines et matérielles), améliorer la collaboration au sein des équipes projets.",
+          inputs: "Objectifs de projet, tâches à réaliser, ressources disponibles (RH, équipements), budgets prévisionnels, délais fixés, retours d'avancement.",
+          outputs: "Diagrammes de Gantt, plans de projet détaillés, rapports d'avancement, suivis des coûts et rentabilité, alertes sur les retards ou dépassements budgétaires, historiques de projet.",
+          links: ["RH", "Budgets", "Temps de travail", "Facturation", "Workflow"],
+          examples: "Suivi en temps réel de l'avancement d'un projet de développement, avec visibilité sur les tâches restantes, les ressources utilisées et les coûts engagés, déclenchant des alertes en cas de dérive.",
+          openSource: "Odoo Project, ERPNext, Dolibarr Project, OpenProject"
+        }
+      },
+      {
+        id: 11,
+        name: "Business Intelligence (BI) et Reporting",
+        description: "Tableaux de bord et analyses décisionnelles",
+        category: "finance",
+        icon: "bi-graph-up",
+        details: {
+          definition: "Le module BI (Business Intelligence) permet de collecter, analyser et visualiser des données provenant de tous les modules de l'ERP pour aider à la prise de décision stratégique et opérationnelle.",
+          objectives: "Fournir une vision 360° de l'entreprise, identifier les tendances, anticiper les évolutions du marché, optimiser les performances, faciliter la prise de décisions éclairées.",
+          inputs: "Toutes les données transactionnelles des modules de l'ERP (ventes, achats, stock, comptabilité, RH, etc.), données externes (marché, concurrents).",
+          outputs: "Tableaux de bord interactifs, rapports personnalisés (ventes, rentabilité, stock, RH), analyses prédictives, outils de data visualisation, alertes sur les indicateurs clés.",
+          links: ["Tous les modules (source de données)"],
+          examples: "Un tableau de bord des ventes affichant en temps réel les performances par produit, par région et par commercial, avec des projections basées sur les tendances passées.",
+          openSource: "Metabase, Apache Superset, Odoo BI"
+        }
+      },
+      {
+        id: 12,
+        name: "Gestion Documentaire (GED)",
+        description: "Centralisation et organisation des documents",
+        category: "cross-functional",
+        icon: "bi-folder",
+        details: {
+          definition: "Le module GED (Gestion Électronique des Documents) centralise, indexe, versionne et sécurise tous les documents numériques de l'entreprise.",
+          objectives: "Améliorer l'accès à l'information, réduire les coûts liés à la gestion papier, sécuriser les documents, faciliter la collaboration et la traçabilité des versions, assurer la conformité réglementaire.",
+          inputs: "Tous types de documents (factures, contrats, procédures, rapports, emails, images, vidéos) générés ou reçus par les autres modules ou importés.",
+          outputs: "Documents classés et indexés, historiques des versions, pistes d'audit des accès et modifications, workflows d'approbation documentaires, facilités de recherche plein texte.",
+          links: ["Tous les modules (utilisateurs de documents)", "Workflow", "Conformité"],
+          examples: "Stockage centralisé et versionné de tous les contrats clients, avec des contrôles d'accès stricts et la possibilité de rechercher des clauses spécifiques par mot-clé.",
+          openSource: "Alfresco Community Edition, Nextcloud, Mayan EDMS"
+        }
+      },
+      {
+        id: 13,
+        name: "E-commerce et Portails B2B/B2C",
+        description: "Intégration boutique en ligne et plateformes",
+        category: "sales",
+        icon: "bi-cart",
+        details: {
+          definition: "Ce module assure la connexion et la synchronisation de l'ERP avec les plateformes de commerce électronique (boutiques en ligne B2C, portails B2B, marketplaces).",
+          objectives: "Automatiser les flux de données entre l'ERP et les canaux de vente en ligne, gérer les commandes web, synchroniser les stocks et les prix en temps réel, offrir une expérience client fluide.",
+          inputs: "Commandes passées sur le site web, mises à jour de fiches produits sur l'ERP, variations de stock, informations clients web.",
+          outputs: "Commandes web importées automatiquement dans l'ERP pour traitement, mises à jour automatiques des stocks et des prix sur le site, création/mise à jour de fiches clients web, rapports de ventes en ligne.",
+          links: ["Ventes", "Stock", "CRM", "Facturation"],
+          examples: "Importation automatique de chaque nouvelle commande passée sur la boutique en ligne dans l'ERP, déclenchant le processus de préparation logistique et de facturation, avec mise à jour immédiate du stock en ligne.",
+          openSource: "Odoo eCommerce (intégré), connecteurs pour PrestaShop, Magento, WooCommerce avec des ERP open source."
+        }
+      },
+      {
+        id: 14,
+        name: "SAV / Support Client",
+        description: "Gestion des demandes après-vente",
+        category: "sales",
+        icon: "bi-headset",
+        details: {
+          definition: "Le module SAV (Service Après-Vente) gère toutes les demandes de support, de réclamation et de service après-vente des clients.",
+          objectives: "Centraliser et suivre les tickets clients, améliorer les délais de réponse et de résolution, mesurer la satisfaction client, réduire le volume des réclamations, gérer les retours produits.",
+          inputs: "Demandes clients (email, téléphone, portail web), historiques d'achat, informations produits, base de connaissances (FAQ).",
+          outputs: "Tickets de support, historique des résolutions, indicateurs de performance SAV (temps moyen de résolution, taux de satisfaction), retours produits gérés, rapports de service.",
+          links: ["CRM", "Ventes", "Stock", "Gestion documentaire"],
+          examples: "Ouverture automatique d'un ticket de support dès la réception d'un email de réclamation, avec attribution à l'agent pertinent et suivi en temps réel de l'état de résolution.",
+          openSource: "Zammad, GLPI (Gestion Libre de Parc Informatique), Odoo Helpdesk"
+        }
+      },
+      {
+        id: 15,
+        name: "Gestion Budgétaire et Prévisions",
+        description: "Élaboration et suivi des budgets",
+        category: "finance",
+        icon: "bi-piggy-bank",
+        details: {
+          definition: "Le module Budgets permet d'élaborer, de suivre et de contrôler les budgets de l'entreprise (dépenses, revenus, investissements) en temps réel.",
+          objectives: "Planifier et allouer les ressources financières, maîtriser les coûts, anticiper les flux de trésorerie, analyser les écarts entre prévisionnel et réalisé, faciliter la prise de décision stratégique.",
+          inputs: "Données historiques (ventes, dépenses), prévisions d'activité, objectifs stratégiques, informations provenant des autres modules (projets, RH, achats).",
+          outputs: "Budgets par service/projet/activité, rapports d'écarts budgétaires, alertes en cas de dépassement, prévisions financières révisées, tableaux de bord budgétaires.",
+          links: ["Comptabilité", "Projets", "Achats", "Ventes", "RH", "BI / Reporting"],
+          examples: "Une alerte est générée automatiquement lorsqu'un service dépasse son budget de dépenses alloué pour le mois, permettant une action corrective rapide.",
+          openSource: "ERPNext, Axelor, Odoo Accounting (avec fonctionnalités budgétaires)"
+        }
+      },
+      {
+        id: 16,
+        name: "Gestion des Temps et Plannings",
+        description: "Suivi des heures de travail et des disponibilités",
+        category: "hr",
+        icon: "bi-calendar-week",
+        details: {
+          definition: "Le module Planning permet de gérer les emplois du temps des employés, les affectations aux projets ou aux tâches, et de suivre les heures de travail.",
+          objectives: "Optimiser l'utilisation des ressources humaines, assurer la couverture des besoins (production, service), gérer les congés et absences, simplifier la collecte des temps pour la paie et la facturation projet.",
+          inputs: "Contrats de travail, disponibilités des employés, demandes de congés, besoins en personnel par projet/activité, données de badgeage.",
+          outputs: "Plannings individuels et d'équipes, feuilles de temps (timesheets), alertes de conflits d'emploi du temps, rapports d'heures travaillées, intégration avec la paie et les projets.",
+          links: ["RH", "Paie", "Projets", "Production"],
+          examples: "Génération automatique d'un planning pour une équipe de production en tenant compte des compétences de chacun, des contraintes légales et des congés validés.",
+          openSource: "Dolibarr, ERPNext (avec Timesheets), Odoo Timesheets/Planning"
+        }
+      },
+      {
+        id: 17,
+        name: "Workflow et Automatisation des Processus",
+        description: "Modélisation et exécution des flux métier",
+        category: "cross-functional",
+        icon: "bi-diagram-3",
+        details: {
+          definition: "Le module Workflow permet de modéliser, d'automatiser et de suivre l'exécution des processus métier au sein de l'ERP et entre les différents services.",
+          objectives: "Standardiser les opérations, réduire les erreurs humaines, accélérer les délais de traitement, améliorer la traçabilité des actions, garantir la conformité aux procédures internes.",
+          inputs: "Définition des processus métier, règles de validation, rôles des utilisateurs, seuils d'approbation.",
+          outputs: "Processus automatisés (ex: validation de commande, approbation de dépenses), alertes et notifications, historiques d'exécution des workflows, indicateurs de performance des processus.",
+          links: ["Tous les modules (les workflows peuvent s'appliquer à tous les domaines)", "Gestion documentaire", "Utilisateurs & rôles"],
+          examples: "Mise en place d'un workflow d'approbation de commande d'achat : la commande est automatiquement envoyée au responsable hiérarchique pour validation si le montant dépasse un certain seuil.",
+          openSource: "Bonita BPM, ProcessMaker (intégrations), Odoo Studio (pour workflows)"
+        }
+      },
+      {
+        id: 18,
+        name: "Gestion des Utilisateurs et Rôles",
+        description: "Sécurité et gestion des accès",
+        category: "cross-functional",
+        icon: "bi-shield-lock",
+        details: {
+          definition: "Le module Utilisateurs et Rôles gère les comptes utilisateurs, les profils, les permissions et les accès aux différentes fonctionnalités et données de l'ERP.",
+          objectives: "Sécuriser l'accès au système et aux informations sensibles, attribuer les droits en fonction des responsabilités de chacun, assurer la traçabilité des actions, garantir la conformité aux politiques de sécurité.",
+          inputs: "Informations d'identification (nom d'utilisateur, mot de passe), rôles prédéfinis (ex: comptable, commercial, responsable RH), règles de sécurité.",
+          outputs: "Comptes utilisateurs actifs/inactifs, profils d'accès, journaux d'audit des connexions et actions, rapports de conformité des accès, gestion des mots de passe.",
+          links: ["Tous les modules (impacte l'accès à toutes les fonctionnalités)", "Conformité", "Audit"],
+          examples: "Attribution automatique de droits d'accès spécifiques à un nouvel employé en fonction de son service et de sa fonction, garantissant qu'il n'accède qu'aux informations nécessaires à son travail.",
+          openSource: "Keycloak (IAM), Odoo (gestion intégrée), OpenLDAP"
+        }
+      },
+      {
+        id: 19,
+        name: "API et Connecteurs",
+        description: "Intégration avec des systèmes tiers",
+        category: "cross-functional",
+        icon: "bi-plug",
+        details: {
+          definition: "Le module API (Application Programming Interface) et Connecteurs permet à l'ERP de communiquer et d'échanger des données avec d'autres applications externes (CRM spécialisé, outils BI, logiciels bancaires, etc.).",
+          objectives: "Assurer l'interopérabilité de l'ERP avec l'écosystème IT de l'entreprise, automatiser les échanges de données, éviter la double saisie, créer des applications complémentaires.",
+          inputs: "Requêtes API, fichiers d'échange (XML, JSON, CSV), événements déclencheurs depuis/vers des applications tierces.",
+          outputs: "Données synchronisées entre systèmes, journaux de connexion et d'erreur, flux de travail inter-applications, rapports d'intégration.",
+          links: ["Tous les modules (permet d'échanger des données de tous les modules)"],
+          examples: "Synchronisation automatique des contacts clients entre l'ERP et un outil de marketing automation via API, ou connexion à un logiciel bancaire pour le rapprochement automatique des transactions.",
+          openSource: "WSO2 Enterprise Integrator, Apache Camel, Zapier (pour les intégrations sans code)"
+        }
+      },
+      {
+        id: 20,
+        name: "Conformité et Audit",
+        description: "Respect des réglementations et traçabilité",
+        category: "cross-functional",
+        icon: "bi-file-earmark-check",
+        details: {
+          definition: "Le module Conformité aide l'entreprise à respecter les réglementations légales (ex: RGPD, normes comptables, ISO 27001) et à assurer la traçabilité des opérations pour les audits.",
+          objectives: "Réduire les risques de non-conformité, faciliter les audits internes et externes, garantir la sécurité des données, maintenir des processus transparents et documentés.",
+          inputs: "Réglementations légales, politiques internes de l'entreprise, données transactionnelles, journaux d'activité des utilisateurs.",
+          outputs: "Rapports d'audit, registres de traitements (pour RGPD), pistes d'audit détaillées pour chaque opération, documentation de conformité, alertes sur les non-conformités potentielles.",
+          links: ["Utilisateurs & rôles", "Gestion documentaire", "Comptabilité", "RH"],
+          examples: "Génération automatique d'un registre des traitements de données personnelles pour le RGPD, ou traçabilité complète de chaque transaction financière pour un audit comptable.",
+          openSource: "Fonctionnalités intégrées aux ERP majeurs, modules annexes spécifiques."
+        }
+      }
+    ];
+
+    // Data for realistic simulations, structured for step-by-step display.
+    const simulations = {
+      sales: {
+        title: "Processus de vente complet - Du CRM à la comptabilité",
+        steps: [
+          {
+            title: "1. Création d'un lead et conversion en client dans le CRM",
+            description: "Un nouveau contact, potentiellement un client, est enregistré dans le module CRM. Après qualification, il est converti en client actif.",
+            module: "CRM",
+            document: {
+              title: "Fiche Client 'Société ABC'",
+              content: [
+                "<span class='highlight'>Identifiant Client: CUST-00123</span>",
+                "Nom Société: Société ABC",
+                "Contact Principal: Mme. Jeanne Dubois",
+                "Adresse: 123 Rue des Innovations, 75000 Paris, France",
+                "Téléphone: +33 1 23 45 67 89",
+                "Email: contact@societeabc.com",
+                "Activité: Solutions Logistiques",
+                "Statut: Client Actif (converti d'un lead le 20/05/2025)",
+                "Commercial Attitré: Jean-Luc Martin"
+              ]
+            }
+          },
+          {
+            title: "2. Création d'un devis dans le module Ventes",
+            description: "Sur la base des besoins du client, un commercial établit un devis détaillé, incluant les produits/services, les quantités, les prix et les remises applicables.",
+            module: "Ventes",
+            document: {
+              title: "Devis n°DEV2025-05-0015",
+              content: [
+                "Client: Société ABC (CUST-00123)",
+                "Date de Création: 22/05/2025",
+                "Date de Validité: 30 jours (expiration le 21/06/2025)",
+                "Produits/Services:",
+                "  - <span class='highlight'>Logiciel ERP Base</span>: 1 licence - 5,000.00€ HT",
+                "  - <span class='highlight'>Module Stock Supplémentaire</span>: 1 licence - 1,500.00€ HT",
+                "  - Services de Formation (3 jours): 3 j. x 800.00€/j. = 2,400.00€ HT",
+                "Total HT: 8,900.00€",
+                "TVA (20%): 1,780.00€",
+                "Total TTC: 10,680.00€",
+                "Conditions de paiement: 30 jours net"
+              ]
+            }
+          },
+          {
+            title: "3. Conversion du devis en commande client",
+            description: "Une fois le devis accepté par le client, il est converti en commande client, formalisant l'engagement d'achat.",
+            module: "Ventes",
+            document: {
+              title: "Commande Client n°CMD2025-05-0080",
+              content: [
+                "Client: Société ABC (CUST-00123)",
+                "Date de Commande: 28/05/2025",
+                "Référence Devis: DEV2025-05-0015",
+                "Statut: Confirmée",
+                "Produits/Services Commandés:",
+                "  - Logiciel ERP Base: 1 licence",
+                "  - Module Stock Supplémentaire: 1 licence",
+                "  - Services de Formation: 3 jours",
+                "Montant Total TTC: 10,680.00€",
+                "Date de livraison/début de service prévue: 10/06/2025",
+                "<span class='highlight'>Action automatique déclenchée: Mise à jour du stock (si produits physiques) et planification des services.</span>"
+              ]
+            }
+          },
+          {
+            title: "4. Livraison des biens / Réalisation des services",
+            description: "Le service logistique prépare et expédie les produits (si applicable), ou les équipes de service planifient et réalisent les prestations. Un bon de livraison ou un rapport d'intervention est généré.",
+            module: "Stock / Projets",
+            document: {
+              title: "Bon de Livraison / Rapport d'Intervention n°BL2025-05-0045",
+              content: [
+                "Client: Société ABC (CUST-00123)",
+                "Date de Livraison/Prestation: 10/06/2025",
+                "Référence Commande: CMD2025-05-0080",
+                "Détails:",
+                "  - Logiciel ERP Base: Téléchargement fourni",
+                "  - Module Stock Supplémentaire: Téléchargement fourni",
+                "  - Services de Formation: Formation effectuée (3 jours) - Formateur: Sophie Duval",
+                "Statut: Livré/Réalisé",
+                "<span class='highlight'>Action automatique déclenchée: Mise à jour du statut de la commande pour facturation.</span>"
+              ]
+            }
+          },
+          {
+            title: "5. Génération de la facture client",
+            description: "Après confirmation de la livraison ou de la réalisation des services, le module Facturation génère automatiquement la facture correspondante.",
+            module: "Facturation",
+            document: {
+              title: "Facture n°FAC2025-05-0030",
+              content: [
+                "Client: Société ABC (CUST-00123)",
+                "Date Facture: 11/06/2025",
+                "Référence Commande: CMD2025-05-0080",
+                "Montant HT: 8,900.00€",
+                "Montant TVA (20%): 1,780.00€",
+                "Montant Total TTC: <span class='highlight'>10,680.00€</span>",
+                "Conditions de Paiement: 30 jours net (Échéance: 11/07/2025)",
+                "<span class='highlight'>Action automatique déclenchée: Génération des écritures comptables.</span>"
+              ]
+            }
+          },
+          {
+            title: "6. Enregistrement comptable de la vente",
+            description: "La génération de la facture déclenche automatiquement la création des écritures comptables correspondantes dans le module Comptabilité.",
+            module: "Comptabilité",
+            document: {
+              title: "Extrait du Grand Livre: Écriture Comptable de Vente",
+              content: [
+                "Date: 11/06/2025",
+                "Journal: Ventes",
+                "Référence: FAC2025-05-0030",
+                "Libellé: Vente de logiciels et services à Société ABC",
+                "  - Compte Client (411000) - Débit: <span class='highlight'>10,680.00 €</span>",
+                "  - Compte Ventes Logiciels (701000) - Crédit: 5,000.00 €",
+                "  - Compte Ventes Modules (701001) - Crédit: 1,500.00 €",
+                "  - Compte Prestations Services (706000) - Crédit: 2,400.00 €",
+                "  - Compte TVA Collectée (445710) - Crédit: 1,780.00 €",
+                "<span class='highlight'>Action automatique déclenchée: Mise à jour du solde du compte client et du chiffre d'affaires.</span>"
+              ]
+            }
+          },
+          {
+            title: "7. Encaissement du paiement client",
+            description: "Lorsque le paiement de la facture est reçu, l'opération est enregistrée dans le module Trésorerie, puis rapprochée de la facture et du compte client.",
+            module: "Trésorerie / Comptabilité",
+            document: {
+              title: "Enregistrement Bancaire et Rapprochement",
+              content: [
+                "Date d'Encaissement: 05/07/2025",
+                "Montant Reçu: 10,680.00€",
+                "Moyen de Paiement: Virement Bancaire",
+                "Référence: FAC2025-05-0030",
+                "<span class='highlight'>Écriture Comptable (Règlement Client):</span>",
+                "  - Compte Banque (512000) - Débit: 10,680.00 €",
+                "  - Compte Client (411000) - Crédit: 10,680.00 €",
+                "<span class='highlight'>Statut de la facture: Payée. Solde du compte client: 0.00€.</span>"
+              ]
+            }
+          }
+        ]
+      },
+      inventory: {
+        title: "Gestion des stocks et réapprovisionnement - De l'alerte à la réception",
+        steps: [
+          {
+            title: "1. Détection d'une rupture de stock imminente",
+            description: "Le module Stock surveille les niveaux de stock en temps réel. Si le stock d'un article descend en dessous d'un seuil minimum défini, une alerte est générée.",
+            module: "Stock",
+            document: {
+              title: "Alerte de Stock Bas",
+              content: [
+                "Article: Composant XYZ",
+                "Référence: COMP-001A",
+                "Stock Actuel: <span class='highlight'>15 unités</span>",
+                "Seuil Minimum: <span class='highlight'>20 unités</span>",
+                "Statut: <span class='highlight'>Rupture imminente</span>",
+                "Consommation Moyenne (jour): 5 unités",
+                "Délai Fournisseur (jours): 10 jours",
+                "Action Recommandée: <span class='highlight'>Créer une demande d'achat.</span>"
+              ]
+            }
+          },
+          {
+            title: "2. Création d'une demande d'achat",
+            description: "Suite à l'alerte, une demande d'achat est créée. Elle spécifie l'article, la quantité requise et la date de besoin.",
+            module: "Achats",
+            document: {
+              title: "Demande d'Achat n°DA2025-06-0005",
+              content: [
+                "Demandeur: Service Production",
+                "Date de Demande: 01/06/2025",
+                "Article: Composant XYZ (COMP-001A)",
+                "Quantité Demandée: <span class='highlight'>100 unités</span>",
+                "Date de Besoin: 15/06/2025",
+                "Motif: Réapprovisionnement suite à alerte stock",
+                "<span class='highlight'>Action automatique déclenchée: Soumission pour approbation.</span>"
+              ]
+            }
+          },
+          {
+            title: "3. Approbation de la demande d'achat (Workflow)",
+            description: "La demande d'achat suit un workflow d'approbation. Le manager valide la demande, qui est ensuite transmise au service Achats.",
+            module: "Workflow / Achats",
+            document: {
+              title: "Validation de Demande d'Achat",
+              content: [
+                "Demande: DA2025-06-0005",
+                "Demandeur: Service Production",
+                "Approuvée par: Mme. Durand (Responsable Production)",
+                "Date d'Approbation: 02/06/2025",
+                "Statut: <span class='highlight'>Approuvée - En attente de commande fournisseur</span>",
+                "Commentaire: Urgence faible, délai fournisseur à respecter."
+              ]
+            }
+          },
+          {
+            title: "4. Création de la commande fournisseur",
+            description: "Le service Achats sélectionne le fournisseur adéquat (en fonction des prix, délais, historique) et génère une commande fournisseur.",
+            module: "Achats",
+            document: {
+              title: "Commande Fournisseur n°CF2025-06-0020",
+              content: [
+                "Fournisseur: Global Components Inc.",
+                "Date de Commande: 03/06/2025",
+                "Article: Composant XYZ (COMP-001A)",
+                "Quantité Commandée: <span class='highlight'>100 unités</span>",
+                "Prix Unitaire Négocié: 5.50 €",
+                "Délai de Livraison Annoncé: 10 jours",
+                "Date de Livraison Prévue: 13/06/2025",
+                "Statut: <span class='highlight'>Envoyée au Fournisseur</span>"
+              ]
+            }
+          },
+          {
+            title: "5. Réception des marchandises en stock",
+            description: "À l'arrivée des marchandises, le service logistique les réceptionne, vérifie la conformité avec la commande et les enregistre en stock.",
+            module: "Stock",
+            document: {
+              title: "Bon de Réception n°BR2025-06-0010",
+              content: [
+                "Fournisseur: Global Components Inc.",
+                "Date de Réception: 14/06/2025",
+                "Référence Commande Fournisseur: CF2025-06-0020",
+                "Article: Composant XYZ (COMP-001A)",
+                "Quantité Reçue: <span class='highlight'>100 unités</span>",
+                "Emplacement de Stockage: Aisle 3, Bin 7",
+                "Vérifié par: David Lefevre",
+                "<span class='highlight'>Action automatique déclenchée: Augmentation du stock disponible.</span>"
+              ]
+            }
+          },
+          {
+            title: "6. Enregistrement de la facture fournisseur",
+            description: "La facture du fournisseur est reçue et enregistrée. Elle est rapprochée de la commande d'achat et du bon de réception.",
+            module: "Achats / Comptabilité",
+            document: {
+              title: "Facture Fournisseur n°INV-GC-2025-0045",
+              content: [
+                "Fournisseur: Global Components Inc.",
+                "Date Facture: 14/06/2025",
+                "Date d'Échéance: 14/07/2025",
+                "Référence Commande Fournisseur: CF2025-06-0020",
+                "Référence Bon de Réception: BR2025-06-0010",
+                "Montant Total HT: 550.00 €",
+                "Montant TVA (20%): 110.00 €",
+                "Montant Total TTC: <span class='highlight'>660.00 €</span>",
+                "Statut: <span class='highlight'>En attente de paiement</span>",
+                "<span class='highlight'>Action automatique déclenchée: Création d'une écriture comptable de dette.</span>"
+              ]
+            }
+          },
+          {
+            title: "7. Paiement de la facture fournisseur",
+            description: "À l'échéance, le service Trésorerie procède au paiement de la facture fournisseur, clôturant ainsi le cycle d'achat.",
+            module: "Trésorerie / Comptabilité",
+            document: {
+              title: "Preuve de Paiement Fournisseur",
+              content: [
+                "Date de Paiement: 10/07/2025",
+                "Montant Payé: 660.00 €",
+                "Moyen de Paiement: Virement Bancaire",
+                "Référence Facture: INV-GC-2025-0045",
+                "<span class='highlight'>Écriture Comptable (Règlement Fournisseur):</span>",
+                "  - Compte Fournisseur (401000) - Débit: 660.00 €",
+                "  - Compte Banque (512000) - Crédit: 660.00 €",
+                "<span class='highlight'>Statut de la facture fournisseur: Payée.</span>"
+              ]
+            }
+          }
+        ]
+      },
+      hr: {
+        title: "Processus RH complet - De l'embauche à la paie",
+        steps: [
+          {
+            title: "1. Création du dossier d'un nouvel employé",
+            description: "Lors d'une nouvelle embauche, les informations personnelles et contractuelles de l'employé sont saisies dans le module RH.",
+            module: "RH",
+            document: {
+              title: "Fiche Employé 'Marc Dubois'",
+              content: [
+                "<span class='highlight'>Identifiant Employé: EMP-0042</span>",
+                "Nom: Dubois",
+                "Prénom: Marc",
+                "Date de Naissance: 15/03/1990",
+                "Poste: Développeur Senior",
+                "Service: Informatique",
+                "Date d'Embauche: 01/06/2025",
+                "Type de Contrat: CDI",
+                "Salaire Brut Annuel: 45,000 €",
+                "N° Sécurité Sociale: XXXXXXXXXXX",
+                "<span class='highlight'>Action automatique déclenchée: Création d'un compte utilisateur ERP.</span>"
+              ]
+            }
+          },
+          {
+            title: "2. Attribution des accès et rôles (Utilisateurs & rôles)",
+            description: "Le module Utilisateurs attribue à Marc Dubois un compte et des droits d'accès spécifiques à son rôle au sein de l'ERP.",
+            module: "Utilisateurs & rôles",
+            document: {
+              title: "Profil d'Accès de Marc Dubois",
+              content: [
+                "Nom d'Utilisateur: m.dubois",
+                "Rôle(s) Attribué(s): <span class='highlight'>Développeur, Accès Projets, Accès Gestion Documentaire (lecture)</span>",
+                "Modules accessibles: Projets, Temps de Travail, Gestion Documentaire, RH (auto-service)",
+                "Permissions spécifiques: Création de tâches projet, Saisie de temps, Accès aux documents techniques.",
+                "Statut du compte: Actif",
+                "<span class='highlight'>Action automatique déclenchée: Notification au manager.</span>"
+              ]
+            }
+          },
+          {
+            title: "3. Saisie des temps de travail et congés",
+            description: "Marc saisit ses heures de travail quotidiennes et ses demandes de congés via le module Temps de travail, qui sont soumises à approbation.",
+            module: "Temps de travail / Planning",
+            document: {
+              title: "Feuille de Temps de Marc Dubois (Semaine 1, Juin)",
+              content: [
+                "Employé: Marc Dubois (EMP-0042)",
+                "Semaine du: 03/06/2025 au 07/06/2025",
+                "  - Lundi: 8h (Projet Alpha)",
+                "  - Mardi: 8h (Projet Alpha)",
+                "  - Mercredi: 4h (Projet Alpha) + <span class='highlight'>4h (Congé)</span>",
+                "  - Jeudi: 8h (Projet Beta)",
+                "  - Vendredi: 8h (Projet Beta)",
+                "Total Semaine: 36h travaillées + 4h congés",
+                "Statut: <span class='highlight'>Validé par le Manager</span>"
+              ]
+            }
+          },
+          {
+            title: "4. Calcul de la paie mensuelle",
+            description: "À la fin du mois, le module Paie intègre les données RH (salaire, absences, primes) et les temps de travail pour calculer le salaire net et les cotisations.",
+            module: "Paie",
+            document: {
+              title: "Calcul de Paie - Marc Dubois (Juin 2025)",
+              content: [
+                "Employé: Marc Dubois (EMP-0042)",
+                "Période: Juin 2025",
+                "Salaire Brut: 3,750.00 € (Base mensuelle)",
+                "  - Retenues Sociales (Urssaf, Retraite...): - 850.00 €",
+                "  - Impôt sur le Revenu (Prél. à la source): - 200.00 €",
+                "  - Indemnité Congés Payés (pour 4h): + 60.00 €",
+                "Salaire Net à Payer: <span class='highlight'>2,760.00 €</span>",
+                "Charges Patronales: 1,500.00 €",
+                "<span class='highlight'>Action automatique déclenchée: Génération du bulletin de paie et des écritures comptables.</span>"
+              ]
+            }
+          },
+          {
+            title: "5. Génération du bulletin de paie et déclarations sociales",
+            description: "Le bulletin de paie est généré et mis à disposition de l'employé. Les déclarations sociales sont préparées pour transmission aux organismes.",
+            module: "Paie / Gestion documentaire",
+            document: {
+              title: "Bulletin de Paie - Marc Dubois (Juin 2025)",
+              content: [
+                "Employé: Marc Dubois",
+                "Période: 01/06/2025 - 30/06/2025",
+                "Salaire Brut: 3,750.00 €",
+                "Cotisations Salariales: 850.00 €",
+                "Impôt sur le Revenu Prélevé: 200.00 €",
+                "Salaire Net Avant Impôt: 2,900.00 €",
+                "Net à Payer: <span class='highlight'>2,760.00 €</span>",
+                "Date de Versement: 28/06/2025",
+                "Déclarations Sociales: Préparées pour DSN (Déclaration Sociale Nominative)."
+              ]
+            }
+          },
+          {
+            title: "6. Enregistrement comptable de la paie",
+            description: "Les données de paie génèrent automatiquement les écritures comptables, impactant les charges de personnel et les dettes sociales.",
+            module: "Comptabilité",
+            document: {
+              title: "Extrait du Grand Livre: Écritures Comptables de Paie",
+              content: [
+                "Date: 30/06/2025",
+                "Journal: Paie",
+                "Libellé: Salaires et Charges Juin 2025",
+                "  - Compte Salaires Bruts (641000) - Débit: <span class='highlight'>3,750.00 €</span>",
+                "  - Compte Charges Sociales Patronales (645000) - Débit: 1,500.00 €",
+                "  - Compte Employés (421000) - Crédit: 2,760.00 € (Net à Payer)",
+                "  - Compte Organismes Sociaux (431000) - Crédit: 2,350.00 € (Charges salariales + patronales)",
+                "  - Compte État (442100) - Crédit: 200.00 € (Prélèvement à la source)",
+                "<span class='highlight'>Impact: Augmentation des charges d'exploitation, création de dettes envers les employés et les organismes sociaux.</span>"
+              ]
+            }
+          },
+          {
+            title: "7. Versement du salaire",
+            description: "Le module Trésorerie exécute le paiement des salaires aux employés et des cotisations aux organismes sociaux, basé sur les données de paie.",
+            module: "Trésorerie / Comptabilité",
+            document: {
+              title: "Ordre de Virement Bancaire (Salaires)",
+              content: [
+                "Date de Virement: 28/06/2025",
+                "Montant Total Salaires: XX,XXX.XX €",
+                "Détail: Virement à Marc Dubois (2,760.00 €), etc.",
+                "Banque: Société Générale",
+                "<span class='highlight'>Impact: Débit du compte bancaire, solde des comptes de dette (employés, organismes) mis à jour.</span>"
+              ]
+            }
+          }
+        ]
+      }
+    };
+
+    let currentSimulationId = null;
+    let currentStepIndex = -1;
+
+    // Function to render modules based on filter and search term
+    function renderModules(filterCategory = '', searchTerm = '') {
+      const moduleList = document.getElementById('moduleList');
+      moduleList.innerHTML = ''; // Clear existing modules
+
+      const filteredModules = modules.filter(module => {
+        const matchesCategory = filterCategory === '' || module.category === filterCategory;
+        const matchesSearch = searchTerm === '' ||
+                              module.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                              module.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                              module.details.definition.toLowerCase().includes(searchTerm.toLowerCase()); // Search in definition too
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filteredModules.length === 0) {
+        moduleList.innerHTML = '<div class="col-12 text-center text-muted">Aucun module ne correspond à votre recherche.</div>';
+        return;
+      }
+
+      filteredModules.forEach(module => {
+        const col = document.createElement('div');
+        col.className = 'col-md-6 col-lg-4'; // Adjusted for better responsiveness
+        col.innerHTML = `
+          <div class="card h-100">
+            <div class="card-header">
+              <i class="bi ${module.icon} me-2"></i>${module.name}
+            </div>
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title fw-bold">${module.description}</h5>
+              <p class="card-text text-muted">${module.details.definition.substring(0, 100)}...</p>
+              <div class="mt-auto">
+                <button class="btn btn-outline-primary btn-sm w-100" onclick="showModuleDetails(${module.id})">
+                  <i class="bi bi-info-circle me-1"></i>En savoir plus
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        moduleList.appendChild(col);
+      });
+    }
+
+    // Function to show module details in a modal
+    function showModuleDetails(id) {
+      const module = modules.find(m => m.id === id);
+      if (!module) return;
+
+      const modalTitle = document.getElementById('moduleModalTitle');
+      const modalBody = document.getElementById('moduleModalBody');
+
+      modalTitle.innerHTML = `<i class="bi ${module.icon} me-2"></i>${module.name} - ${module.description}`;
+      modalBody.innerHTML = `
+        <p><strong>Définition:</strong> ${module.details.definition}</p>
+        <p><strong>Objectifs:</strong> ${module.details.objectives}</p>
+        <p><strong>Exemples de données d'entrée:</strong> ${module.details.inputs}</p>
+        <p><strong>Exemples de données de sortie:</strong> ${module.details.outputs}</p>
+        <p><strong>Interactions avec d'autres modules:</strong>
+          <div class="linked-modules">
+            ${module.details.links.map(link => `<span class="linked-module">${link}</span>`).join('')}
+          </div>
+        </p>
+        <p><strong>Exemple de scénario d'utilisation:</strong> ${module.details.examples}</p>
+        <p><strong>Exemples de solutions Open Source:</strong> ${module.details.openSource}</p>
+      `;
+
+      const moduleModal = new bootstrap.Modal(document.getElementById('moduleModal'));
+      moduleModal.show();
+
+      // Add event listeners to linked modules in modal for navigation
+      modalBody.querySelectorAll('.linked-module').forEach(linkedModuleSpan => {
+        linkedModuleSpan.addEventListener('click', (event) => {
+          const linkedModuleName = event.target.textContent;
+          const linkedModule = modules.find(m => m.name.toLowerCase().includes(linkedModuleName.toLowerCase()));
+          if (linkedModule) {
+            moduleModal.hide(); // Hide current modal
+            setTimeout(() => showModuleDetails(linkedModule.id), 300); // Show new modal after a short delay
+          }
+        });
+      });
+    }
+
+    // Function to start a simulation
+    function startSimulation(simulationId) {
+      currentSimulationId = simulationId;
+      currentStepIndex = -1; // Reset step index
+      document.getElementById('simulationPanel').style.display = 'block';
+      document.getElementById('simulationTitle').textContent = simulations[simulationId].title;
+      renderSimulationSteps();
+      showNextStep(); // Show the first step
+
+      // Scroll to simulation panel
+      document.getElementById('simulationPanel').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Function to render simulation steps navigation
+    function renderSimulationSteps() {
+      const simulationStepsContainer = document.getElementById('simulationSteps');
+      simulationStepsContainer.innerHTML = '';
+      simulations[currentSimulationId].steps.forEach((step, index) => {
+        const stepDiv = document.createElement('div');
+        stepDiv.className = `process-step ${index === currentStepIndex ? 'active pulse' : ''}`;
+        stepDiv.setAttribute('onclick', `goToStep(${index})`);
+        stepDiv.innerHTML = `
+          <div class="step-number">${index + 1}</div>
+          <div>
+            <strong>${step.title}</strong>
+            <p class="mb-0 text-muted small">${step.description}</p>
+          </div>
+        `;
+        simulationStepsContainer.appendChild(stepDiv);
+      });
+    }
+
+    // Function to show the next step in simulation
+    function showNextStep() {
+      currentStepIndex++;
+      if (currentStepIndex >= simulations[currentSimulationId].steps.length) {
+        // Using a custom modal-like message instead of alert()
+        const endMessage = `
+          <div class="modal fade" id="simulationEndModal" tabindex="-1" aria-labelledby="simulationEndModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                  <h5 class="modal-title" id="simulationEndModalLabel">Simulation Terminée !</h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Bravo, vous avez parcouru l'intégralité du processus de "${simulations[currentSimulationId].title}" !</p>
+                  <p>Vous pouvez réinitialiser la simulation ou en choisir une autre.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="resetSimulation()">Fermer et Réinitialiser</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', endMessage);
+        const simEndModal = new bootstrap.Modal(document.getElementById('simulationEndModal'));
+        simEndModal.show();
+        // The resetSimulation() will be called from the modal's close button or the "Fermer et Réinitialiser" button.
+        return;
+      }
+      renderCurrentStepDetails();
+      renderSimulationSteps(); // Re-render steps to update active state
+    }
+
+    // Function to go to a specific step
+    function goToStep(index) {
+      currentStepIndex = index;
+      renderCurrentStepDetails();
+      renderSimulationSteps(); // Re-render steps to update active state
+    }
+
+    // Function to render details of the current simulation step
+    function renderCurrentStepDetails() {
+      const currentStepDetails = document.getElementById('currentStepDetails');
+      const step = simulations[currentSimulationId].steps[currentStepIndex];
+
+      if (!step) {
+        currentStepDetails.innerHTML = '<p class="text-muted">Sélectionnez une étape pour voir les détails.</p>';
+        return;
+      }
+
+      // Filter modules to find relevant ones for linked modules display
+      const linkedModulesHtml = modules.filter(m => {
+        // Check if the step's module string contains the module's name
+        // Or if the step's module string contains the module's category (e.g., "Stock / Projets" matches "Stock" and "Projets")
+        return step.module.includes(m.name) || step.module.split(' / ').some(part => part.trim() === m.name.split(' ')[0] || m.name.includes(part.trim()));
+      })
+      .map(m => `<span class="linked-module" data-module-id="${m.id}">${m.name}</span>`).join('');
+
+      currentStepDetails.innerHTML = `
+        <h5 class="fw-bold text-primary">${step.title}</h5>
+        <p>${step.description}</p>
+        <p><strong>Module(s) Principal(aux):</strong> <span class="badge bg-secondary"><i class="bi ${modules.find(m => m.name === step.module || step.module.includes(m.category))?.icon || 'bi-grid'} me-1"></i>${step.module}</span></p>
+        <div class="document-preview mb-3">
+          <div class="document-title">Document Clé: ${step.document.title}</div>
+          <pre class="small text-monospace bg-light p-3 rounded">${step.document.content.join('\n')}</pre>
+        </div>
+        <p><strong>Modules liés à cette étape:</strong></p>
+        <div class="linked-modules">
+          ${linkedModulesHtml}
+        </div>
+        <button class="btn btn-primary mt-3" onclick="showNextStep()">
+          <i class="bi bi-arrow-right-circle me-2"></i>Étape suivante
+        </button>
+      `;
+
+      // Add event listeners to linked modules within the step details
+      currentStepDetails.querySelectorAll('.linked-module').forEach(linkedModuleSpan => {
+        linkedModuleSpan.addEventListener('click', (event) => {
+          const moduleId = parseInt(event.target.getAttribute('data-module-id'));
+          if (moduleId) {
+            showModuleDetails(moduleId);
+          }
+        });
+      });
+    }
+
+    // Function to reset the simulation
+    function resetSimulation() {
+      currentSimulationId = null;
+      currentStepIndex = -1;
+      document.getElementById('simulationPanel').style.display = 'none';
+      document.getElementById('simulationSteps').innerHTML = '';
+      document.getElementById('currentStepDetails').innerHTML = '<p class="text-muted">Sélectionnez une étape à gauche pour afficher ses détails.</p>';
+      // Remove the end simulation modal if it exists
+      const existingModal = document.getElementById('simulationEndModal');
+      if (existingModal) {
+          existingModal.remove();
+      }
+    }
+
+    // Initial render of modules on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderModules();
+
+      document.getElementById('moduleSearch').addEventListener('input', (event) => {
+        renderModules(document.getElementById('moduleFilter').value, event.target.value);
+      });
+
+      document.getElementById('moduleFilter').addEventListener('change', (event) => {
+        renderModules(event.target.value, document.getElementById('moduleSearch').value);
+      });
+    });
+  </script>
+</body>
+</html>
