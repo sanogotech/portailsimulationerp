@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portail ERP Interactif</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
+  <style>
+    /* Variables CSS pour une gestion facile des couleurs */
+    :root {
+      --primary-color: #2c3e50; /* Bleu foncé / Gris anthracite */
+      --secondary-color: #3498db; /* Bleu vif */
+      --accent-color: #e74c3c; /* Rouge corail */
+      --light-bg: #f8f9fa; /* Arrière-plan très clair */
+      --dark-bg: #212529; /* Arrière-plan foncé pour le footer */
+      --text-color: #333;
+      --heading-color: var(--primary-color);
+      --card-bg: white;
+      --border-color: #dee2e6;
+    }
+    
+    body { 
+      background-color: var(--light-bg);
+      font-family: 'Inter', sans-serif; /* Utilisation de la police Inter */
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden; /* Empêche le défilement horizontal */
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--heading-color);
+      font-weight: 600;
+    }
+
+    /* Styles de la barre de navigation */
+    .navbar {
+      background-color: var(--primary-color);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15); /* Ombre plus prononcée */
+      padding: 0.8rem 0;
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      color: white !important;
+      font-size: 1.6rem;
+      transition: transform 0.2s ease;
+    }
+    
+    .navbar-brand:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.8) !important;
+      font-weight: 500;
+      transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: white !important;
+      transform: translateY(-2px);
+    }
+
+    /* Section Hero */
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      padding: 6rem 0; /* Plus de padding pour un effet plus grand */
+      margin-bottom: 4rem;
+      border-radius: 0 0 30px 30px; /* Bords plus arrondis */
+      text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://placehold.co/1200x600/000000/FFFFFF?text=ERP+Background') no-repeat center center/cover; /* Placeholder background image */
+      opacity: 0.1; /* Effet de superposition subtil */
+      z-index: 0;
+    }
+
+    .hero-section .container {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .hero-section h1 {
+      font-size: 3.5rem; /* Taille de police plus grande */
+      font-weight: 700;
+      margin-bottom: 1rem;
+      animation: slideInFromLeft 1s ease-out forwards;
+      opacity: 0;
+    }
+
+    .hero-section p.lead {
+      font-size: 1.3rem;
+      margin-bottom: 2.5rem;
+      animation: slideInFromRight 1s ease-out forwards;
+      animation-delay: 0.3s;
+      opacity: 0;
+    }
+
+    .hero-section .btn-light {
+      background-color: white;
+      color: var(--primary-color);
+      font-weight: 600;
+      border-radius: 50px; /* Boutons pill */
+      padding: 0.8rem 2.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .hero-section .btn-light:hover {
+      background-color: var(--light-bg);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .hero-section .btn-outline-light {
+      color: white;
+      border-color: white;
+      font-weight: 600;
+      border-radius: 50px;
+      padding: 0.8rem 2.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .hero-section .btn-outline-light:hover {
+      background-color: white;
+      color: var(--secondary-color);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Animations pour la section Hero */
+    @keyframes slideInFromLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideInFromRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Styles des cartes de module */
+    .card {
+      border: none;
+      border-radius: 15px; /* Bords plus arrondis */
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* Ombre plus douce */
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transition plus fluide */
+      height: 100%;
+      background-color: var(--card-bg);
+    }
+    
+    .card:hover { 
+      transform: translateY(-8px); /* Effet de soulèvement plus prononcé */
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2); /* Ombre plus intense au survol */
+    }
+    
+    .card-header {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      padding: 1rem 1.5rem;
+      border-bottom: none;
+      display: flex;
+      align-items: center;
+      border-radius: 15px 15px 0 0;
+    }
+
+    .card-header .bi {
+      font-size: 1.8rem;
+      margin-right: 0.75rem;
+      color: rgba(255,255,255,0.8);
+    }
+    
+    .module-icon {
+      font-size: 2.2rem; /* Icônes plus grandes */
+      margin-bottom: 1rem;
+      color: var(--secondary-color);
+    }
+    
+    /* Styles des boutons */
+    .btn-primary {
+      background: linear-gradient(90deg, var(--secondary-color) 0%, #2980b9 100%); /* Dégradé */
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(90deg, #2980b9 0%, var(--secondary-color) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+    }
+    
+    .btn-outline-primary {
+      color: var(--secondary-color);
+      border-color: var(--secondary-color);
+      border-radius: 8px;
+      padding: 0.6rem 1.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-outline-primary:hover {
+      background-color: var(--secondary-color);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2);
+    }
+
+    .btn-sm {
+      padding: 0.4rem 1rem;
+      font-size: 0.85rem;
+    }
+
+    /* Conteneur de simulation */
+    .simulation-container {
+      background-color: white;
+      border-radius: 15px;
+      padding: 2.5rem; /* Plus de padding */
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      margin-bottom: 3rem;
+    }
+    
+    /* Étapes du processus de simulation */
+    .process-step {
+      position: relative;
+      padding-left: 45px; /* Plus d'espace pour le cercle */
+      margin-bottom: 30px; /* Plus d'espace entre les étapes */
+      padding-bottom: 15px; /* Espace pour la ligne */
+    }
+    
+    .process-step:before {
+      content: attr(data-step-number); /* Numéro de l'étape */
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 35px; /* Taille du cercle */
+      height: 35px;
+      background-color: var(--secondary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    
+    .process-step:after {
+      content: "";
+      position: absolute;
+      left: 17px; /* Centre la ligne */
+      top: 35px; /* Commence après le cercle */
+      width: 2px;
+      height: calc(100% - 35px); /* S'étend jusqu'à la fin de l'étape */
+      background-color: var(--secondary-color);
+      z-index: 0;
+    }
+    
+    .process-step:last-child:after {
+      display: none; /* Pas de ligne après la dernière étape */
+    }
+
+    .process-step.completed:before {
+      background-color: #28a745; /* Vert pour les étapes complétées */
+      content: '\f269'; /* Icône de coche Bootstrap */
+      font-family: "bootstrap-icons" !important;
+      font-size: 1.2rem;
+    }
+
+    .process-step.completed:after {
+      background-color: #28a745; /* Ligne verte pour les étapes complétées */
+    }
+
+    /* Styles des tableaux de données */
+    .data-table {
+      width: 100%;
+      margin-bottom: 1rem;
+      border-collapse: separate; /* Pour les bords arrondis */
+      border-spacing: 0;
+      border-radius: 8px;
+      overflow: hidden; /* Important pour les bords arrondis */
+    }
+    
+    .data-table th {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 0.8rem 1rem;
+      text-align: left;
+    }
+
+    .data-table td {
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .data-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tbody tr:nth-child(even) {
+      background-color: #f2f2f2; /* Lignes alternées */
+    }
+    
+    /* Boîte de surbrillance */
+    .highlight-box {
+      background-color: rgba(52, 152, 219, 0.1); /* Couleur plus douce */
+      border-left: 5px solid var(--secondary-color); /* Bordure plus épaisse */
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 0 10px 10px 0; /* Bords arrondis sur le côté droit */
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+    
+    /* Modules liés */
+    .linked-modules {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+    }
+    
+    .linked-module {
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 25px; /* Bords très arrondis */
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .linked-module:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    /* Contenu des onglets */
+    .tab-content {
+      padding: 2rem 0;
+    }
+
+    .nav-tabs .nav-link {
+      color: var(--primary-color) !important;
+      border: 1px solid var(--border-color);
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      margin-right: 5px;
+      padding: 0.75rem 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-tabs .nav-link.active {
+      background-color: var(--secondary-color);
+      color: white !important;
+      border-color: var(--secondary-color);
+      font-weight: 600;
+    }
+
+    .nav-tabs .nav-link:hover:not(.active) {
+      background-color: rgba(52, 152, 219, 0.1);
+      color: var(--secondary-color) !important;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--dark-bg);
+      color: rgba(255, 255, 255, 0.8);
+      padding: 2.5rem 0;
+      margin-top: 4rem;
+      font-size: 0.9rem;
+    }
+
+    footer p {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Animation pour les cartes de module */
+    @keyframes fadeInSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .module-card {
+      animation: fadeInSlideUp 0.6s ease forwards;
+      opacity: 0; /* Caché par défaut pour l'animation */
+    }
+    
+    /* Délai d'animation pour chaque carte */
+    .module-card:nth-child(1) { animation-delay: 0.1s; }
+    .module-card:nth-child(2) { animation-delay: 0.2s; }
+    .module-card:nth-child(3) { animation-delay: 0.3s; }
+    .module-card:nth-child(4) { animation-delay: 0.4s; }
+    .module-card:nth-child(5) { animation-delay: 0.5s; }
+    .module-card:nth-child(6) { animation-delay: 0.6s; }
+    .module-card:nth-child(7) { animation-delay: 0.7s; }
+    .module-card:nth-child(8) { animation-delay: 0.8s; }
+    .module-card:nth-child(9) { animation-delay: 0.9s; }
+    .module-card:nth-child(10) { animation-delay: 1s; }
+    .module-card:nth-child(11) { animation-delay: 1.1s; }
+    .module-card:nth-child(12) { animation-delay: 1.2s; }
+    .module-card:nth-child(13) { animation-delay: 1.3s; }
+    .module-card:nth-child(14) { animation-delay: 1.4s; }
+    .module-card:nth-child(15) { animation-delay: 1.5s; }
+    .module-card:nth-child(16) { animation-delay: 1.6s; }
+    .module-card:nth-child(17) { animation-delay: 1.7s; }
+    .module-card:nth-child(18) { animation-delay: 1.8s; }
+    .module-card:nth-child(19) { animation-delay: 1.9s; }
+    .module-card:nth-child(20) { animation-delay: 2s; }
+
+    /* Styles pour la section "Qu'est-ce qu'un ERP ?" */
+    .erp-definition .icon-box {
+      padding: 1.5rem;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+
+    .erp-definition .icon-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+
+    .erp-definition .icon-box .bi {
+      font-size: 3.5rem;
+      color: var(--secondary-color);
+      margin-bottom: 0.75rem;
+    }
+
+    /* Modal personnalisée pour les messages */
+    .custom-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1050; /* Au-dessus des modales Bootstrap */
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .custom-modal-backdrop.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .custom-modal-content {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      width: 90%;
+      transform: translateY(-50px);
+      transition: transform 0.3s ease;
+    }
+
+    .custom-modal-backdrop.show .custom-modal-content {
+      transform: translateY(0);
+    }
+
+    .custom-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .custom-modal-header h5 {
+      margin-bottom: 0;
+      color: var(--primary-color);
+    }
+
+    .custom-modal-body {
+      margin-bottom: 1.5rem;
+    }
+
+    .custom-modal-footer {
+      text-align: right;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 4rem 0;
+        margin-bottom: 2rem;
+      }
+      
+      .hero-section h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-section p.lead {
+        font-size: 1rem;
+      }
+
+      .hero-section .btn-lg {
+        padding: 0.6rem 1.8rem;
+        font-size: 0.9rem;
+      }
+
+      .module-icon {
+        font-size: 1.8rem;
+      }
+
+      .simulation-container {
+        padding: 1.5rem;
+      }
+
+      .process-step {
+        padding-left: 35px;
+        margin-bottom: 20px;
+      }
+
+      .process-step:before {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+      }
+
+      .process-step:after {
+        left: 14px;
+        top: 30px;
+        height: calc(100% - 30px);
+      }
+
+      .erp-definition .icon-box .bi {
+        font-size: 2.5rem;
+      }
+
+      .nav-tabs .nav-link {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-diagram-3-fill me-2"></i>Portail ERP Interactif
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#modules">Modules</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#simulations">Simulations</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">À propos</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section">
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-3" data-aos="fade-right">Comprendre les ERP de manière interactive</h1>
+      <p class="lead mb-4" data-aos="fade-left" data-aos-delay="300">Explorez les modules clés d'un ERP et leurs interactions métiers à travers des simulations réalistes</p>
+      <div class="d-flex justify-content-center gap-3" data-aos="fade-up" data-aos-delay="600">
+        <a href="#modules" class="btn btn-light btn-lg px-4">Explorer les modules</a>
+        <a href="#simulations" class="btn btn-outline-light btn-lg px-4">Voir les simulations</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container mb-5">
+    <section class="mb-5 erp-definition" data-aos="fade-up">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <h2 class="mb-4">Qu'est-ce qu'un ERP ?</h2>
+          <p class="lead">Un ERP (Enterprise Resource Planning) est un système intégré de gestion qui permet de piloter l'ensemble des processus métiers d'une entreprise en utilisant une base de données commune.</p>
+          <div class="d-flex justify-content-center mt-4 gap-4 flex-wrap">
+            <div class="px-3 text-center icon-box" data-aos="zoom-in" data-aos-delay="100">
+              <i class="bi bi-people-fill"></i>
+              <p class="mt-2 fw-bold">Centralisation</p>
+            </div>
+            <div class="px-3 text-center icon-box" data-aos="zoom-in" data-aos-delay="200">
+              <i class="bi bi-arrow-left-right"></i>
+              <p class="mt-2 fw-bold">Intégration</p>
+            </div>
+            <div class="px-3 text-center icon-box" data-aos="zoom-in" data-aos-delay="300">
+              <i class="bi bi-graph-up"></i>
+              <p class="mt-2 fw-bold">Performance</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="modules" class="mb-5">
+      <h2 class="text-center mb-4" data-aos="fade-down">Modules ERP</h2>
+      <div class="row mb-4" data-aos="fade-up">
+        <div class="col-md-6 mx-auto">
+          <div class="input-group">
+            <input type="text" id="moduleSearch" class="form-control rounded-start-pill" placeholder="Rechercher un module..." aria-label="Rechercher un module">
+            <button class="btn btn-outline-secondary rounded-end-pill" type="button" id="searchButton">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4" id="moduleList">
+        </div>
+    </section>
+
+    <section id="simulations" class="mb-5">
+      <h2 class="text-center mb-4" data-aos="fade-down">Simulations interactives</h2>
+      
+      <ul class="nav nav-tabs justify-content-center mb-4" id="simulationTabs" role="tablist" data-aos="fade-up">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="vente-tab" data-bs-toggle="tab" data-bs-target="#vente" type="button" role="tab" aria-controls="vente" aria-selected="true">
+            <i class="bi bi-cart-check me-2"></i>Processus de vente
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="achat-tab" data-bs-toggle="tab" data-bs-target="#achat" type="button" role="tab" aria-controls="achat" aria-selected="false">
+            <i class="bi bi-cart-plus me-2"></i>Processus d'achat
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="rh-tab" data-bs-toggle="tab" data-bs-target="#rh" type="button" role="tab" aria-controls="rh" aria-selected="false">
+            <i class="bi bi-people-fill me-2"></i>Processus RH
+          </button>
+        </li>
+      </ul>
+      
+      <div class="tab-content" id="simulationTabContent">
+        <div class="tab-pane fade show active" id="vente" role="tabpanel" tabindex="0">
+          <div class="simulation-container" data-aos="fade-up">
+            <h3 class="mb-4 text-center">Simulation du processus de vente</h3>
+            <p class="text-center text-muted mb-5">Cette simulation montre le flux complet d'une vente dans un ERP, depuis la création d'un client jusqu'à l'impact comptable.</p>
+            
+            <div class="process-step" data-step-number="1">
+              <h5>1. Création d'un client</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" onclick="simulateStep('createClient')">Simuler cette étape</button>
+                <div id="clientForm" class="mt-3 p-3 border rounded" style="display:none;">
+                  <h6 class="mb-3">Informations client</h6>
+                  <div class="row g-3">
+                    <div class="col-md-4">
+                      <label for="clientName" class="form-label">Nom</label>
+                      <input type="text" class="form-control" id="clientName" value="Dupont SA" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="clientAddress" class="form-label">Adresse</label>
+                      <input type="text" class="form-control" id="clientAddress" value="12 Rue de Paris, 75001" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="clientSiret" class="form-label">SIRET</label>
+                      <input type="text" class="form-control" id="clientSiret" value="12345678900012" pattern="[0-9]{14}" title="14 chiffres requis" required>
+                    </div>
+                    <div class="col-12 text-end">
+                      <button class="btn btn-primary btn-sm" onclick="saveClient()">Enregistrer le client</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="clientResult" class="mt-3" style="display:none;"></div>
+            </div>
+            
+            <div class="process-step" data-step-number="2">
+              <h5>2. Création d'un devis</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="createQuoteBtn" disabled onclick="simulateStep('createQuote')">Simuler cette étape</button>
+                <div id="quoteForm" class="mt-3 p-3 border rounded" style="display:none;">
+                  <h6 class="mb-3">Détails du devis</h6>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label for="quoteClient" class="form-label">Client</label>
+                      <select class="form-select" id="quoteClient" required>
+                        <option value="">Sélectionner un client</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="quoteValidity" class="form-label">Validité (jours)</label>
+                      <input type="number" class="form-control" id="quoteValidity" value="30" min="1" required>
+                    </div>
+                    <div class="col-12">
+                      <h6 class="mt-3">Articles du devis</h6>
+                      <table class="table table-sm data-table" id="quoteItemsTable">
+                        <thead>
+                          <tr>
+                            <th>Article</th>
+                            <th>Quantité</th>
+                            <th>Prix unitaire (€)</th>
+                            <th>Total (€)</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr data-item-id="1">
+                            <td>
+                              <select class="form-select form-select-sm" id="quoteItem1" required>
+                                <option value="">Sélectionner</option>
+                                <option value="Ordinateur portable Pro" data-price="1200">Ordinateur portable Pro</option>
+                                <option value="Écran 24''" data-price="250">Écran 24''</option>
+                                <option value="Clavier sans fil" data-price="80">Clavier sans fil</option>
+                                <option value="Souris ergonomique" data-price="40">Souris ergonomique</option>
+                              </select>
+                            </td>
+                            <td><input type="number" class="form-control form-control-sm" id="quoteQty1" value="1" min="1" required></td>
+                            <td><input type="number" class="form-control form-control-sm" id="quotePrice1" value="1200" step="0.01" required></td>
+                            <td><span id="quoteTotal1">1200.00</span></td>
+                            <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeQuoteItem(this)"><i class="bi bi-trash"></i></button></td>
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="5" class="text-start">
+                              <button type="button" class="btn btn-sm btn-outline-primary" onclick="addQuoteItem()"><i class="bi bi-plus"></i> Ajouter un article</button>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="3" class="text-end fw-bold">Total HT:</td>
+                            <td colspan="2"><span id="quoteTotalHT">1200.00</span> €</td>
+                          </tr>
+                          <tr>
+                            <td colspan="3" class="text-end fw-bold">TVA (20%):</td>
+                            <td colspan="2"><span id="quoteTVA">240.00</span> €</td>
+                          </tr>
+                          <tr>
+                            <td colspan="3" class="text-end fw-bold">Total TTC:</td>
+                            <td colspan="2"><span id="quoteTotalTTC">1440.00</span> €</td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                    <div class="col-12 text-end">
+                      <button class="btn btn-primary btn-sm" onclick="saveQuote()">Enregistrer le devis</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="quoteResult" class="mt-3" style="display:none;"></div>
+            </div>
+            
+            <div class="process-step" data-step-number="3">
+              <h5>3. Conversion en commande</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="convertOrderBtn" disabled onclick="simulateStep('convertOrder')">Simuler cette étape</button>
+                <div id="orderResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="process-step" data-step-number="4">
+              <h5>4. Livraison et mise à jour du stock</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="deliveryBtn" disabled onclick="simulateStep('processDelivery')">Simuler cette étape</button>
+                <div id="deliveryResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="process-step" data-step-number="5">
+              <h5>5. Facturation</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="invoiceBtn" disabled onclick="simulateStep('createInvoice')">Simuler cette étape</button>
+                <div id="invoiceResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="process-step" data-step-number="6">
+              <h5>6. Écriture comptable</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="accountingBtn" disabled onclick="simulateStep('createAccountingEntry')">Simuler cette étape</button>
+                <div id="accountingResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="mt-4 text-center">
+              <button class="btn btn-primary" onclick="resetSimulation()">Réinitialiser la simulation</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tab-pane fade" id="achat" role="tabpanel" tabindex="0">
+          <div class="simulation-container" data-aos="fade-up">
+            <h3 class="mb-4 text-center">Simulation du processus d'achat</h3>
+            <p class="text-center text-muted mb-5">Cette simulation montre le flux complet d'un achat dans un ERP, depuis la détection d'un besoin jusqu'au paiement du fournisseur.</p>
+            
+            <div class="process-step" data-step-number="1">
+              <h5>1. Détection du besoin</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" onclick="simulatePurchaseStep('detectNeed')">Simuler cette étape</button>
+                <div id="needResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="process-step" data-step-number="2">
+              <h5>2. Création d'une demande d'achat</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="createRequestBtn" disabled onclick="simulatePurchaseStep('createRequest')">Simuler cette étape</button>
+                <div id="requestResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="process-step" data-step-number="3">
+              <h5>3. Validation de la demande</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="approveRequestBtn" disabled onclick="simulatePurchaseStep('approveRequest')">Simuler cette étape</button>
+                <div id="approvalResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="process-step" data-step-number="4">
+              <h5>4. Création d'un bon de commande</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="createPOBtn" disabled onclick="simulatePurchaseStep('createPO')">Simuler cette étape</button>
+                <div id="poResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="process-step" data-step-number="5">
+              <h5>5. Réception des marchandises</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="receiveGoodsBtn" disabled onclick="simulatePurchaseStep('receiveGoods')">Simuler cette étape</button>
+                <div id="receptionResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="process-step" data-step-number="6">
+              <h5>6. Facture fournisseur</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="supplierInvoiceBtn" disabled onclick="simulatePurchaseStep('processSupplierInvoice')">Simuler cette étape</button>
+                <div id="supplierInvoiceResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="process-step" data-step-number="7">
+              <h5>7. Paiement fournisseur</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="paymentBtn" disabled onclick="simulatePurchaseStep('processPayment')">Simuler cette étape</button>
+                <div id="paymentResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="mt-4 text-center">
+              <button class="btn btn-primary" onclick="resetPurchaseSimulation()">Réinitialiser la simulation</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tab-pane fade" id="rh" role="tabpanel" tabindex="0">
+          <div class="simulation-container" data-aos="fade-up">
+            <h3 class="mb-4 text-center">Simulation du processus RH</h3>
+            <p class="text-center text-muted mb-5">Cette simulation montre le flux complet de gestion d'un employé dans un ERP, depuis le recrutement jusqu'à la paie.</p>
+            
+            <div class="process-step" data-step-number="1">
+              <h5>1. Recrutement d'un nouvel employé</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" onclick="simulateHRStep('recruitment')">Simuler cette étape</button>
+                <div id="recruitmentForm" class="mt-3 p-3 border rounded" style="display:none;">
+                  <h6 class="mb-3">Informations employé</h6>
+                  <div class="row g-3">
+                    <div class="col-md-4">
+                      <label for="employeeName" class="form-label">Nom</label>
+                      <input type="text" class="form-control" id="employeeName" value="Martin" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="employeeFirstName" class="form-label">Prénom</label>
+                      <input type="text" class="form-control" id="employeeFirstName" value="Sophie" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="employeePosition" class="form-label">Poste</label>
+                      <input type="text" class="form-control" id="employeePosition" value="Développeur" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="employeeHireDate" class="form-label">Date d'embauche</label>
+                      <input type="date" class="form-control" id="employeeHireDate" value="2023-06-01" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="employeeSalary" class="form-label">Salaire brut annuel (€)</label>
+                      <input type="number" class="form-control" id="employeeSalary" value="35000" min="0" required>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="employeeDepartment" class="form-label">Service</label>
+                      <select class="form-select" id="employeeDepartment" required>
+                        <option value="IT">IT</option>
+                        <option value="RH">RH</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Marketing">Marketing</option>
+                      </select>
+                    </div>
+                    <div class="col-12 text-end">
+                      <button class="btn btn-primary btn-sm" onclick="saveEmployee()">Enregistrer l'employé</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="recruitmentResult" class="mt-3" style="display:none;"></div>
+            </div>
+            
+            <div class="process-step" data-step-number="2">
+              <h5>2. Création du contrat</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="createContractBtn" disabled onclick="simulateHRStep('createContract')">Simuler cette étape</button>
+                <div id="contractResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="process-step" data-step-number="3">
+              <h5>3. Gestion des congés</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="manageLeaveBtn" disabled onclick="simulateHRStep('manageLeave')">Simuler cette étape</button>
+                <div id="leaveResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="process-step" data-step-number="4">
+              <h5>4. Traitement de la paie</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="processPayrollBtn" disabled onclick="simulateHRStep('processPayroll')">Simuler cette étape</button>
+                <div id="payrollResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="process-step" data-step-number="5">
+              <h5>5. Impact comptable</h5>
+              <div class="mb-3">
+                <button class="btn btn-sm btn-outline-primary" id="hrAccountingBtn" disabled onclick="simulateHRStep('hrAccounting')">Simuler cette étape</button>
+                <div id="hrAccountingResult" class="mt-3" style="display:none;"></div>
+              </div>
+            </div>
+            
+            <div class="mt-4 text-center">
+              <button class="btn btn-primary" onclick="resetHRSimulation()">Réinitialiser la simulation</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="about" class="mb-5" data-aos="fade-up">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <h2 class="mb-4">À propos de ce portail</h2>
+          <p>Ce portail pédagogique a été conçu pour aider les étudiants et les professionnels à comprendre le fonctionnement d'un ERP de manière interactive. Il met en évidence les principaux modules et leurs interactions à travers des simulations réalistes.</p>
+          <p>Les données utilisées sont fictives mais représentatives des flux réels dans une entreprise, offrant une approche pratique de la gestion d'entreprise.</p>
+          <div class="mt-4">
+            <h5>ERP open source référencés</h5>
+            <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+              <span class="badge bg-secondary py-2 px-3 rounded-pill">Odoo</span>
+              <span class="badge bg-secondary py-2 px-3 rounded-pill">ERPNext</span>
+              <span class="badge bg-secondary py-2 px-3 rounded-pill">Dolibarr</span>
+              <span class="badge bg-secondary py-2 px-3 rounded-pill">Axelor</span>
+              <span class="badge bg-secondary py-2 px-3 rounded-pill">iDempiere</span>
+              <span class="badge bg-secondary py-2 px-3 rounded-pill">Tryton</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="container text-center">
+      <p class="mb-0">Portail ERP Interactif - Outil pédagogique</p>
+      <p class="mb-0">© 2023 - Tous droits réservés</p>
+    </div>
+  </footer>
+
+  <div class="modal fade" id="moduleModal" tabindex="-1" aria-labelledby="moduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white rounded-top-2">
+          <h5 class="modal-title" id="moduleModalLabel">Détails du module</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="moduleModalContent">
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="custom-modal-backdrop" id="customAlertModal">
+    <div class="custom-modal-content">
+      <div class="custom-modal-header">
+        <h5 id="customAlertTitle">Message</h5>
+        <button type="button" class="btn-close" onclick="closeCustomAlert()" aria-label="Close"></button>
+      </div>
+      <div class="custom-modal-body" id="customAlertBody">
+        </div>
+      <div class="custom-modal-footer">
+        <button type="button" class="btn btn-primary" onclick="closeCustomAlert()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // Initialisation de AOS (Animate On Scroll)
+    AOS.init({
+      duration: 1000,
+      once: true, // Les animations ne se déclenchent qu'une seule fois
+    });
+
+    // Données des modules ERP
+    const modules = [
+      { 
+        id: 1,
+        nom: 'CRM', 
+        icon: 'bi-person-lines-fill',
+        desc: 'Gestion des relations client', 
+        details: 'Le module CRM (Customer Relationship Management) permet de gérer l\'ensemble des interactions avec les clients et prospects. Il centralise les informations clients, suit les opportunités commerciales et permet de planifier des actions marketing ciblées.',
+        inputs: 'Données clients, interactions (emails, appels, rendez-vous), campagnes marketing',
+        outputs: 'Opportunités commerciales, analyses de performance, devis',
+        links: ['Ventes', 'Facturation', 'E-commerce'],
+        openSource: 'Odoo, ERPNext, Dolibarr, Axelor',
+        examples: 'Suivi d\'un prospect depuis sa première interaction jusqu\'à la vente, analyse du taux de conversion des campagnes marketing'
+      },
+      { 
+        id: 2,
+        nom: 'Ventes', 
+        icon: 'bi-cart-check',
+        desc: 'Gestion des ventes', 
+        details: 'Le module Ventes permet de gérer l\'ensemble du processus commercial, de la création de devis à la commande client. Il offre des outils pour configurer des tarifs, gérer les remises et suivre l\'état des commandes.',
+        inputs: 'Devis, informations clients, disponibilité des produits',
+        outputs: 'Commandes clients, bons de livraison, relances',
+        links: ['CRM', 'Facturation', 'Stock'],
+        openSource: 'Odoo, ERPNext, Tryton',
+        examples: 'Création d\'un devis, conversion en commande, suivi du chiffre d\'affaires par commercial'
+      },
+      { 
+        id: 3,
+        nom: 'Facturation', 
+        icon: 'bi-receipt',
+        desc: 'Génération de factures', 
+        details: 'Le module Facturation automatise la création des factures clients et fournisseurs. Il gère les différents types de factures (acomptes, avoirs) et peut être connecté à des solutions de paiement en ligne.',
+        inputs: 'Commandes clients, bons de livraison, taux de TVA',
+        outputs: 'Factures, relances, échéanciers',
+        links: ['Ventes', 'Comptabilité', 'E-commerce'],
+        openSource: 'Odoo, Dolibarr, Metasfresh',
+        examples: 'Génération automatique d\'une facture après livraison, gestion des paiements échelonnés'
+      },
+      { 
+        id: 4,
+        nom: 'Comptabilité', 
+        icon: 'bi-calculator',
+        desc: 'Gestion financière', 
+        details: 'Le module Comptabilité enregistre toutes les opérations financières de l\'entreprise. Il permet d\'établir les états financiers (bilan, compte de résultat) et assure la conformité avec les normes comptables.',
+        inputs: 'Factures, relevés bancaires, opérations diverses',
+        outputs: 'Journaux comptables, balances, états financiers',
+        links: ['Facturation', 'Paie', 'Budgets'],
+        openSource: 'Odoo, iDempiere, ERPNext',
+        examples: 'Rapprochement bancaire automatique, génération du bilan annuel'
+      },
+      { 
+        id: 5,
+        nom: 'Achats', 
+        icon: 'bi-cart-plus',
+        desc: 'Commande fournisseur', 
+        details: 'Le module Achats gère l\'ensemble du processus d\'approvisionnement, de la demande d\'achat au paiement du fournisseur. Il permet de comparer les offres et d\'optimiser les coûts d\'achat.',
+        inputs: 'Demandes d\'achat, catalogues fournisseurs, niveaux de stock',
+        outputs: 'Commandes fournisseurs, réceptions, factures fournisseurs',
+        links: ['Stock', 'Comptabilité', 'Budgets'],
+        openSource: 'Odoo, ERPNext, Dolibarr',
+        examples: 'Création automatique d\'une commande fournisseur lorsque le stock est bas, suivi des délais de livraison'
+      },
+      { 
+        id: 6,
+        nom: 'Stock', 
+        icon: 'bi-box-seam',
+        desc: 'Suivi des articles', 
+        details: 'Le module Stock permet de gérer les mouvements et les niveaux d\'inventaire. Il offre des outils pour les inventaires, les transferts entre entrepôts et la gestion des lots/séries.',
+        inputs: 'Réceptions, livraisons, inventaires',
+        outputs: 'Niveaux de stock, alertes de réapprovisionnement, valorisation',
+        links: ['Ventes', 'Achats', 'Supply Chain'],
+        openSource: 'Odoo, OpenBoxes, ERPNext',
+        examples: 'Suivi en temps réel des stocks multi-entrepôts, gestion des dates de péremption'
+      },
+      { 
+        id: 7,
+        nom: 'Supply Chain', 
+        icon: 'bi-truck',
+        desc: 'Chaîne logistique', 
+        details: 'Le module Supply Chain optimise les flux physiques de marchandises. Il planifie les transports, gère les relations avec les prestataires logistiques et suit les performances de la chaîne d\'approvisionnement.',
+        inputs: 'Commandes à livrer, disponibilité transporteurs, coûts logistiques',
+        outputs: 'Plannings de livraison, tracking des expéditions, indicateurs de performance',
+        links: ['Stock', 'Ventes', 'Achats'],
+        openSource: 'ERPNext, Tryton, Axelor',
+        examples: 'Optimisation des tournées de livraison, suivi GPS des colis'
+      },
+      { 
+        id: 8,
+        nom: 'Ressources Humaines', 
+        icon: 'bi-people',
+        desc: 'Gestion du personnel', 
+        details: 'Le module RH centralise les informations sur les employés (contrats, compétences, formations). Il facilite la gestion des recrutements, des évaluations et de la mobilité interne.',
+        inputs: 'Données employés, offres d\'emploi, demandes de formation',
+        outputs: 'Contrats, plans de formation, organigrammes',
+        links: ['Paie', 'Projets', 'Planning'],
+        openSource: 'Odoo, OrangeHRM, Dolibarr',
+        examples: 'Gestion des compétences, planification des formations, suivi des entretiens annuels'
+      },
+      { 
+        id: 9,
+        nom: 'Paie', 
+        icon: 'bi-cash-stack',
+        desc: 'Gestion des salaires', 
+        details: 'Le module Paie calcule les rémunérations en tenant compte des contrats, des heures supplémentaires et des absences. Il génère les bulletins de paie et les déclarations sociales.',
+        inputs: 'Contrats, heures travaillées, absences, variables',
+        outputs: 'Bulletins de paie, déclarations sociales, écritures comptables',
+        links: ['RH', 'Comptabilité', 'Budget'],
+        openSource: 'Odoo, Dolibarr, Sentrifugo',
+        examples: 'Calcul automatique des cotisations sociales, gestion des primes variables'
+      },
+      { 
+        id: 10,
+        nom: 'Projets', 
+        icon: 'bi-kanban',
+        desc: 'Gestion de projet', 
+        details: 'Le module Projets permet de planifier, suivre et analyser les projets. Il offre des outils pour le découpage en tâches, l\'affectation des ressources et le suivi des coûts.',
+        inputs: 'Objectifs projet, ressources disponibles, contraintes',
+        outputs: 'Plannings, rapports d\'avancement, analyses de rentabilité',
+        links: ['RH', 'Budget', 'Facturation'],
+        openSource: 'ERPNext, Dolibarr, OpenProject',
+        examples: 'Suivi agile avec tableau Kanban, analyse de la charge de travail par ressource'
+      },
+      { 
+        id: 11,
+        nom: 'Reporting', 
+        icon: 'bi-graph-up',
+        desc: 'Indicateurs de performance', 
+        details: 'Le module Reporting transforme les données opérationnelles en tableaux de bord et analyses. Il permet de créer des rapports personnalisés et de suivre les KPI de l\'entreprise.',
+        inputs: 'Données opérationnelles, modèles de rapport, paramètres d\'analyse',
+        outputs: 'Tableaux de bord, rapports exportables, alertes',
+        links: ['Tous les modules'],
+        openSource: 'Metabase, Superset, Odoo',
+        examples: 'Tableau de bord commercial avec indicateurs clés, analyse des temps de livraison'
+      },
+      { 
+        id: 12,
+        nom: 'E-commerce', 
+        icon: 'bi-cart',
+        desc: 'Boutique en ligne', 
+        details: 'Le module E-commerce connecte la boutique en ligne à l\'ERP. Il synchronise les produits, stocks et commandes, et offre des outils de marketing digital.',
+        inputs: 'Catalogue produits, commandes en ligne, données clients',
+        outputs: 'Commandes ERP, factures, statistiques de vente',
+        links: ['Ventes', 'Stock', 'CRM'],
+        openSource: 'Odoo, Prestashop, WooCommerce',
+        examples: 'Synchronisation automatique des stocks entre site web et ERP, personnalisation des recommandations'
+      },
+      { 
+        id: 13,
+        nom: 'SAV', 
+        icon: 'bi-headset',
+        desc: 'Service client', 
+        details: 'Le module SAV (Service Après-Vente) gère les réclamations et demandes d\'assistance. Il permet de prioriser et suivre les tickets jusqu\'à leur résolution.',
+        inputs: 'Demandes clients, garanties, retours produits',
+        outputs: 'Tickets, solutions documentées, analyses de satisfaction',
+        links: ['CRM', 'Stock', 'Facturation'],
+        openSource: 'Zammad, GLPI, Odoo',
+        examples: 'Gestion des retours sous garantie, suivi du temps moyen de résolution'
+      },
+      { 
+        id: 14,
+        nom: 'Planning', 
+        icon: 'bi-calendar-week',
+        desc: 'Gestion des plannings', 
+        details: 'Le module Planning optimise l\'utilisation des ressources (humaines, machines). Il gère les disponibilités, les congés et les affectations aux projets.',
+        inputs: 'Ressources, contraintes, demandes',
+        outputs: 'Plannings, alertes de conflits, taux d\'occupation',
+        links: ['RH', 'Projets', 'Production'],
+        openSource: 'Dolibarr, ERPNext, Odoo',
+        examples: 'Planification des équipes en 3x8, gestion des ressources partagées'
+      },
+      { 
+        id: 15,
+        nom: 'Budgets', 
+        icon: 'bi-piggy-bank',
+        desc: 'Gestion budgétaire', 
+        details: 'Le module Budgets permet de créer, suivre et analyser les budgets par centre de coût. Il compare les prévisions aux réalisations et génère des alertes.',
+        inputs: 'Objectifs financiers, historiques, modèles',
+        outputs: 'Budgets, analyses d\'écarts, prévisions révisées',
+        links: ['Comptabilité', 'Projets', 'Achats'],
+        openSource: 'ERPNext, Axelor, Odoo',
+        examples: 'Suivi des dépenses par département, analyse des écarts budgétaires'
+      },
+      { 
+        id: 16,
+        nom: 'GED', 
+        icon: 'bi-folder',
+        desc: 'Gestion électronique de documents', 
+        details: 'Le module GED (Gestion Electronique de Documents) centralise et sécurise les documents de l\'entreprise. Il offre des outils de recherche, versioning et workflow d\'approbation.',
+        inputs: 'Documents numérisés, fichiers natifs, métadonnées',
+        outputs: 'Documents classés, historiques de modification, alertes',
+        links: ['Tous les modules'],
+        openSource: 'Nextcloud, Alfresco, Odoo',
+        examples: 'Archivage des factures fournisseurs, gestion des contrats avec alertes d\'échéance'
+      },
+      { 
+        id: 17,
+        nom: 'Workflows', 
+        icon: 'bi-diagram-3',
+        desc: 'Automatisation des processus', 
+        details: 'Le module Workflows permet de modéliser et automatiser les processus métier. Il gère les validations en cascade, les notifications et les intégrations entre modules.',
+        inputs: 'Processus à automatiser, règles métier, acteurs',
+        outputs: 'Processus exécutés, notifications, historiques d\'approbation',
+        links: ['Tous les modules'],
+        openSource: 'Bonita BPM, Camunda, Odoo',
+        examples: 'Workflow d\'approbation des commandes, circuit de validation des congés'
+      },
+      { 
+        id: 18,
+        nom: 'API / Intégration', 
+        icon: 'bi-plug',
+        desc: 'Connexion à d\'autres applications', 
+        details: 'Le module API permet d\'échanger des données avec d\'autres systèmes. Il expose des points d\'accès sécurisés et gère les formats d\'échange (JSON, XML).',
+        inputs: 'Requêtes externes, données à synchroniser',
+        outputs: 'Réponses API, données mises à jour',
+        links: ['Tous les modules'],
+        openSource: 'WSO2, MuleSoft, Zapier',
+        examples: 'Synchronisation avec un site e-commerce, intégration avec un outil de BI'
+      },
+      { 
+        id: 19,
+        nom: 'Utilisateurs & Rôles', 
+        icon: 'bi-shield-lock',
+        desc: 'Gestion des accès', 
+        details: 'Le module Utilisateurs gère les comptes et les droits d\'accès. Il permet de définir des profils avec des permissions granulaires sur les données et fonctionnalités.',
+        inputs: 'Utilisateurs, profils métier, règles de sécurité',
+        outputs: 'Comptes actifs, journaux d\'accès, alertes de sécurité',
+        links: ['Tous les modules'],
+        openSource: 'Keycloak, Odoo, ERPNext',
+        examples: 'Gestion centralisée des accès, audit des connexions sensibles'
+      },
+      { 
+        id: 20,
+        nom: 'Conformité', 
+        icon: 'bi-file-earmark-check',
+        desc: 'RGPD, normes', 
+        details: 'Le module Conformité aide à respecter les réglementations (RGPD, ISO). Il gère les consentements, les audits et les processus de mise en conformité.',
+        inputs: 'Réglementations, données sensibles, processus',
+        outputs: 'Politiques documentées, preuves de conformité, alertes',
+        links: ['Tous les modules'],
+        openSource: 'Modules RGPD Odoo, solutions externes',
+        examples: 'Gestion des demandes d\'accès RGPD, audit des traitements de données'
+      }
+    ];
+
+    // États des simulations
+    let simulationState = {
+      clientCreated: false,
+      quoteCreated: false,
+      orderCreated: false,
+      deliveryProcessed: false,
+      invoiceCreated: false,
+      accountingEntryCreated: false
+    };
+
+    let purchaseSimulationState = {
+      needDetected: false,
+      requestCreated: false,
+      requestApproved: false,
+      poCreated: false,
+      goodsReceived: false,
+      invoiceProcessed: false,
+      paymentDone: false
+    };
+
+    let hrSimulationState = {
+      employeeCreated: false,
+      contractCreated: false,
+      leaveManaged: false,
+      payrollProcessed: false,
+      accountingImpactDone: false
+    };
+
+    // Éléments DOM
+    const moduleListContainer = document.getElementById('moduleList');
+    const moduleModalTitle = document.getElementById('moduleModalLabel');
+    const moduleModalContent = document.getElementById('moduleModalContent');
+    const moduleSearchInput = document.getElementById('moduleSearch');
+    const customAlertModal = document.getElementById('customAlertModal');
+    const customAlertTitle = document.getElementById('customAlertTitle');
+    const customAlertBody = document.getElementById('customAlertBody');
+
+    // Initialisation de la page
+    document.addEventListener('DOMContentLoaded', function() {
+      renderModules();
+      setupSearch();
+      // Initialiser les calculs de devis si le formulaire est visible au chargement (peu probable mais pour la robustesse)
+      calculateQuoteTotals(); 
+    });
+
+    /**
+     * Affiche une modale personnalisée au lieu d'une alerte native.
+     * @param {string} title - Le titre de la modale.
+     * @param {string} message - Le contenu HTML du message.
+     */
+    function showCustomAlert(title, message) {
+      customAlertTitle.innerHTML = title;
+      customAlertBody.innerHTML = message;
+      customAlertModal.classList.add('show');
+    }
+
+    /**
+     * Ferme la modale personnalisée.
+     */
+    function closeCustomAlert() {
+      customAlertModal.classList.remove('show');
+    }
+
+    /**
+     * Met à jour l'état visuel d'une étape de simulation.
+     * @param {string} tabId - L'ID de l'onglet de simulation (e.g., 'vente', 'achat', 'rh').
+     * @param {number} stepNumber - Le numéro de l'étape à marquer comme complétée.
+     */
+    function markStepCompleted(tabId, stepNumber) {
+      const tabPane = document.getElementById(tabId);
+      const stepElement = tabPane.querySelector(`.process-step[data-step-number="${stepNumber}"]`);
+      if (stepElement) {
+        stepElement.classList.add('completed');
+      }
+    }
+
+    /**
+     * Réinitialise l'état visuel de toutes les étapes d'une simulation.
+     * @param {string} tabId - L'ID de l'onglet de simulation.
+     */
+    function resetStepVisuals(tabId) {
+      const tabPane = document.getElementById(tabId);
+      const stepElements = tabPane.querySelectorAll('.process-step');
+      stepElements.forEach(step => {
+        step.classList.remove('completed');
+      });
+    }
+
+    /**
+     * Affiche ou masque un élément avec une transition douce.
+     * @param {HTMLElement} element - L'élément HTML à afficher/masquer.
+     * @param {boolean} show - Vrai pour afficher, faux pour masquer.
+     */
+    function toggleVisibilityWithAnimation(element, show) {
+      if (show) {
+        element.style.opacity = '0';
+        element.style.height = '0';
+        element.style.overflow = 'hidden';
+        element.style.display = 'block';
+        setTimeout(() => {
+          element.style.transition = 'opacity 0.5s ease-out, height 0.5s ease-out';
+          element.style.opacity = '1';
+          element.style.height = element.scrollHeight + 'px'; // Ajuste la hauteur
+        }, 10); // Petit délai pour que le display:block prenne effet
+      } else {
+        element.style.transition = 'opacity 0.5s ease-out, height 0.5s ease-out';
+        element.style.opacity = '0';
+        element.style.height = '0';
+        setTimeout(() => {
+          element.style.display = 'none';
+          element.style.removeProperty('overflow');
+          element.style.removeProperty('transition');
+        }, 500); // Attendre la fin de la transition
+      }
+    }
+
+    /**
+     * Affiche tous les modules ou les modules filtrés.
+     * @param {string} filter - Le texte de filtre pour les noms ou descriptions de modules.
+     */
+    function renderModules(filter = '') {
+      moduleListContainer.innerHTML = '';
+      
+      const filteredModules = modules.filter(module => 
+        module.nom.toLowerCase().includes(filter.toLowerCase()) || 
+        module.desc.toLowerCase().includes(filter.toLowerCase())
+      );
+      
+      filteredModules.forEach((mod, index) => {
+        const col = document.createElement('div');
+        col.className = 'col module-card';
+        // Ajout de l'attribut data-aos pour l'animation au défilement
+        col.setAttribute('data-aos', 'fade-up');
+        col.setAttribute('data-aos-delay', (index * 50).toString()); // Délai progressif
+        col.innerHTML = `
+          <div class="card h-100">
+            <div class="card-header">
+              <i class="bi ${mod.icon}"></i>
+              <h5 class="mb-0">${mod.nom}</h5>
+            </div>
+            <div class="card-body d-flex flex-column justify-content-between">
+              <p class="card-text">${mod.desc}</p>
+              <button class="btn btn-primary btn-sm mt-auto" onclick="showModuleDetails(${mod.id})">
+                <i class="bi bi-info-circle me-1"></i>Détails
+              </button>
+            </div>
+          </div>
+        `;
+        moduleListContainer.appendChild(col);
+      });
+    }
+
+    /**
+     * Configure la fonctionnalité de recherche pour les modules.
+     */
+    function setupSearch() {
+      moduleSearchInput.addEventListener('input', function() {
+        renderModules(this.value);
+      });
+      
+      document.getElementById('searchButton').addEventListener('click', function() {
+        renderModules(moduleSearchInput.value);
+      });
+    }
+
+    /**
+     * Affiche les détails d'un module dans une modale.
+     * @param {number} moduleId - L'ID du module à afficher.
+     */
+    function showModuleDetails(moduleId) {
+      const mod = modules.find(m => m.id === moduleId);
+      if (!mod) return;
+      
+      moduleModalTitle.textContent = mod.nom;
+      
+      let linkedModulesHtml = '';
+      if (mod.links && mod.links.length > 0) {
+        linkedModulesHtml = `<div class="linked-modules">
+          <span class="fw-bold">Modules liés:</span>
+          ${mod.links.map(link => `<span class="linked-module">${link}</span>`).join('')}
+        </div>`;
+      }
+      
+      moduleModalContent.innerHTML = `
+        <div class="mb-3 d-flex align-items-center">
+          <i class="bi ${mod.icon} fs-1 text-primary me-3"></i>
+          <h4 class="mb-0">${mod.nom}</h4>
+        </div>
+        
+        <div class="highlight-box">
+          <p><strong>Description:</strong> ${mod.details}</p>
+        </div>
+        
+        <div class="row mt-4">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <h5><i class="bi bi-box-arrow-in-down me-2 text-success"></i>Entrées</h5>
+            <p>${mod.inputs}</p>
+          </div>
+          <div class="col-md-6">
+            <h5><i class="bi bi-box-arrow-up me-2 text-info"></i>Sorties</h5>
+            <p>${mod.outputs}</p>
+          </div>
+        </div>
+        
+        ${linkedModulesHtml}
+        
+        <div class="mt-4">
+          <h5><i class="bi bi-lightbulb me-2 text-warning"></i>Exemples concrets</h5>
+          <p>${mod.examples}</p>
+        </div>
+        
+        <div class="mt-4">
+          <h5><i class="bi bi-code-square me-2 text-secondary"></i>ERP open source</h5>
+          <p>${mod.openSource}</p>
+        </div>
+      `;
+      
+      const modal = new bootstrap.Modal(document.getElementById('moduleModal'));
+      modal.show();
+    }
+
+    // Fonctions de simulation pour le processus de vente
+    function simulateStep(step) {
+      switch(step) {
+        case 'createClient':
+          toggleVisibilityWithAnimation(document.getElementById('clientForm'), true);
+          break;
+          
+        case 'createQuote':
+          if (!simulationState.clientCreated) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord créer un client.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('quoteForm'), true);
+          populateClientSelect();
+          calculateQuoteTotals(); // Assurez-vous que les totaux sont calculés au chargement du formulaire
+          break;
+          
+        case 'convertOrder':
+          if (!simulationState.quoteCreated) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord créer un devis.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('orderResult'), true);
+          document.getElementById('orderResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>La commande <strong>CMD-2023-001</strong> a été créée à partir du devis.</p>
+              <p>Contenu de la commande:</p>
+              <ul>
+                <li>Ordinateur portable Pro × 1</li>
+                <li>Souris ergonomique × 1</li>
+              </ul>
+            </div>
+          `;
+          simulationState.orderCreated = true;
+          document.getElementById('deliveryBtn').disabled = false;
+          markStepCompleted('vente', 3);
+          break;
+          
+        case 'processDelivery':
+          if (!simulationState.orderCreated) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord convertir le devis en commande.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('deliveryResult'), true);
+          document.getElementById('deliveryResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>Le bon de livraison <strong>BL-2023-001</strong> a été généré.</p>
+              <p>Le stock a été mis à jour:</p>
+              <table class="table table-sm data-table">
+                <thead>
+                  <tr>
+                    <th>Article</th>
+                    <th>Stock avant</th>
+                    <th>Stock après</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Ordinateur portable Pro</td>
+                    <td>5</td>
+                    <td>4</td>
+                  </tr>
+                  <tr>
+                    <td>Souris ergonomique</td>
+                    <td>10</td>
+                    <td>9</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          `;
+          simulationState.deliveryProcessed = true;
+          document.getElementById('invoiceBtn').disabled = false;
+          markStepCompleted('vente', 4);
+          break;
+          
+        case 'createInvoice':
+          if (!simulationState.deliveryProcessed) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord traiter la livraison.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('invoiceResult'), true);
+          document.getElementById('invoiceResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>La facture <strong>FAC-2023-001</strong> a été générée.</p>
+              <p>Montant TTC: 1 440,00 €</p>
+              <p>Échéance: ${new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR')}</p>
+              <button class="btn btn-sm btn-outline-primary mt-2" onclick="viewDocument('Facture', 'FAC-2023-001')">
+                <i class="bi bi-eye"></i> Voir la facture
+              </button>
+            </div>
+          `;
+          simulationState.invoiceCreated = true;
+          document.getElementById('accountingBtn').disabled = false;
+          markStepCompleted('vente', 5);
+          break;
+          
+        case 'createAccountingEntry':
+          if (!simulationState.invoiceCreated) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord créer la facture.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('accountingResult'), true);
+          document.getElementById('accountingResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>L'écriture comptable a été générée:</p>
+              <table class="table table-sm data-table">
+                <thead>
+                  <tr>
+                    <th>Compte</th>
+                    <th>Libellé</th>
+                    <th>Débit (€)</th>
+                    <th>Crédit (€)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>411000</td>
+                    <td>Clients - Dupont SA</td>
+                    <td>1 440,00</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>707000</td>
+                    <td>Vente de marchandises</td>
+                    <td></td>
+                    <td>1 200,00</td>
+                  </tr>
+                  <tr>
+                    <td>445710</td>
+                    <td>TVA collectée</td>
+                    <td></td>
+                    <td>240,00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          `;
+          simulationState.accountingEntryCreated = true;
+          markStepCompleted('vente', 6);
+          break;
+      }
+    }
+
+    /**
+     * Valide et enregistre les informations du client.
+     */
+    function saveClient() {
+      const clientName = document.getElementById('clientName').value;
+      const clientAddress = document.getElementById('clientAddress').value;
+      const clientSiret = document.getElementById('clientSiret').value;
+
+      if (!clientName || !clientAddress || !clientSiret || !/^[0-9]{14}$/.test(clientSiret)) {
+        showCustomAlert('Erreur de saisie', 'Veuillez remplir tous les champs du client correctement (SIRET: 14 chiffres).');
+        return;
+      }
+      
+      toggleVisibilityWithAnimation(document.getElementById('clientResult'), true);
+      document.getElementById('clientResult').innerHTML = `
+        <div class="alert alert-success mt-3 animated-alert">
+          <p><i class="bi bi-check-circle-fill me-2"></i>Le client <strong>${clientName}</strong> a été créé avec succès.</p>
+          <p>Code client: CL-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}</p>
+        </div>
+      `;
+      
+      toggleVisibilityWithAnimation(document.getElementById('clientForm'), false);
+      simulationState.clientCreated = true;
+      document.getElementById('createQuoteBtn').disabled = false;
+      markStepCompleted('vente', 1);
+    }
+
+    /**
+     * Remplit le sélecteur de client dans le formulaire de devis.
+     */
+    function populateClientSelect() {
+      const select = document.getElementById('quoteClient');
+      select.innerHTML = '<option value="">Sélectionner un client</option>';
+      
+      const clientName = document.getElementById('clientName').value;
+      if (clientName) {
+        const option = document.createElement('option');
+        option.value = clientName;
+        option.textContent = clientName;
+        select.appendChild(option);
+        select.value = clientName; // Sélectionne le client par défaut
+      }
+    }
+
+    let quoteItemCounter = 1; // Compteur pour les IDs uniques des articles de devis
+
+    /**
+     * Ajoute une nouvelle ligne d'article au tableau du devis.
+     */
+    function addQuoteItem() {
+      quoteItemCounter++;
+      const tableBody = document.getElementById('quoteItemsTable').getElementsByTagName('tbody')[0];
+      
+      const newRow = tableBody.insertRow();
+      newRow.setAttribute('data-item-id', quoteItemCounter);
+      newRow.innerHTML = `
+        <td>
+          <select class="form-select form-select-sm" id="quoteItem${quoteItemCounter}" required onchange="updatePriceFromSelection(this)">
+            <option value="">Sélectionner</option>
+            <option value="Ordinateur portable Pro" data-price="1200">Ordinateur portable Pro</option>
+            <option value="Écran 24''" data-price="250">Écran 24''</option>
+            <option value="Clavier sans fil" data-price="80">Clavier sans fil</option>
+            <option value="Souris ergonomique" data-price="40">Souris ergonomique</option>
+          </select>
+        </td>
+        <td><input type="number" class="form-control form-control-sm" id="quoteQty${quoteItemCounter}" value="1" min="1" required></td>
+        <td><input type="number" class="form-control form-control-sm" id="quotePrice${quoteItemCounter}" value="0" step="0.01" required></td>
+        <td><span id="quoteTotal${quoteItemCounter}">0.00</span></td>
+        <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeQuoteItem(this)"><i class="bi bi-trash"></i></button></td>
+      `;
+      
+      // Ajout des écouteurs d'événements pour le calcul dynamique
+      document.getElementById(`quoteQty${quoteItemCounter}`).addEventListener('input', calculateQuoteTotals);
+      document.getElementById(`quotePrice${quoteItemCounter}`).addEventListener('input', calculateQuoteTotals);
+      calculateQuoteTotals();
+    }
+
+    /**
+     * Met à jour le prix unitaire quand un article est sélectionné.
+     * @param {HTMLSelectElement} selectElement - L'élément select qui a changé.
+     */
+    function updatePriceFromSelection(selectElement) {
+      const selectedOption = selectElement.options[selectElement.selectedIndex];
+      const price = selectedOption.getAttribute('data-price');
+      const row = selectElement.closest('tr');
+      const priceInput = row.querySelector('input[id^="quotePrice"]');
+      if (priceInput && price) {
+        priceInput.value = price;
+      }
+      calculateQuoteTotals();
+    }
+
+    /**
+     * Supprime une ligne d'article du tableau du devis.
+     * @param {HTMLButtonElement} buttonElement - Le bouton de suppression cliqué.
+     */
+    function removeQuoteItem(buttonElement) {
+      const tableBody = document.getElementById('quoteItemsTable').getElementsByTagName('tbody')[0];
+      if (tableBody.rows.length > 1) { // Empêche la suppression de la dernière ligne
+        const row = buttonElement.closest('tr');
+        row.remove();
+        calculateQuoteTotals();
+      } else {
+        showCustomAlert('Attention', 'Un devis doit contenir au moins un article.');
+      }
+    }
+
+    /**
+     * Calcule les totaux HT, TVA et TTC du devis.
+     */
+    function calculateQuoteTotals() {
+      const tableBody = document.getElementById('quoteItemsTable').getElementsByTagName('tbody')[0];
+      let totalHT = 0;
+      
+      for (let i = 0; i < tableBody.rows.length; i++) {
+        const qtyInput = tableBody.rows[i].querySelector('input[id^="quoteQty"]');
+        const priceInput = tableBody.rows[i].querySelector('input[id^="quotePrice"]');
+        const totalSpan = tableBody.rows[i].querySelector('span[id^="quoteTotal"]');
+
+        const qty = parseFloat(qtyInput.value) || 0;
+        const price = parseFloat(priceInput.value) || 0;
+        const total = qty * price;
+        
+        totalSpan.textContent = total.toFixed(2);
+        totalHT += total;
+      }
+      
+      const tva = totalHT * 0.2; // TVA à 20%
+      const totalTTC = totalHT + tva;
+      
+      document.getElementById('quoteTotalHT').textContent = totalHT.toFixed(2);
+      document.getElementById('quoteTVA').textContent = tva.toFixed(2);
+      document.getElementById('quoteTotalTTC').textContent = totalTTC.toFixed(2);
+    }
+
+    /**
+     * Valide et enregistre le devis.
+     */
+    function saveQuote() {
+      const client = document.getElementById('quoteClient').value;
+      const validity = document.getElementById('quoteValidity').value;
+      const totalTTC = document.getElementById('quoteTotalTTC').textContent;
+
+      if (!client || !validity || parseFloat(totalTTC) <= 0) {
+        showCustomAlert('Erreur de saisie', 'Veuillez sélectionner un client, spécifier une validité et ajouter au moins un article valide au devis.');
+        return;
+      }
+      
+      toggleVisibilityWithAnimation(document.getElementById('quoteResult'), true);
+      document.getElementById('quoteResult').innerHTML = `
+        <div class="alert alert-success mt-3 animated-alert">
+          <p><i class="bi bi-check-circle-fill me-2"></i>Le devis <strong>DEV-2023-001</strong> a été créé pour le client ${client}.</p>
+          <p>Montant TTC: ${totalTTC} €</p>
+          <p>Validité: ${validity} jours</p>
+          <button class="btn btn-sm btn-outline-primary mt-2" onclick="viewDocument('Devis', 'DEV-2023-001')">
+            <i class="bi bi-eye"></i> Voir le devis
+          </button>
+        </div>
+      `;
+      
+      toggleVisibilityWithAnimation(document.getElementById('quoteForm'), false);
+      simulationState.quoteCreated = true;
+      document.getElementById('convertOrderBtn').disabled = false;
+      markStepCompleted('vente', 2);
+    }
+
+    /**
+     * Simule la visualisation d'un document (devis, facture, contrat).
+     * @param {string} docType - Le type de document (e.g., 'Devis', 'Facture', 'Contrat').
+     * @param {string} docRef - La référence du document.
+     */
+    function viewDocument(docType, docRef) {
+      showCustomAlert('Visualisation du document', `Fonctionnalité de visualisation du ${docType} <strong>${docRef}</strong> en PDF (simulée).`);
+    }
+
+    /**
+     * Réinitialise l'état et l'interface utilisateur de la simulation de vente.
+     */
+    function resetSimulation() {
+      // Réinitialiser l'UI
+      toggleVisibilityWithAnimation(document.getElementById('clientForm'), false);
+      toggleVisibilityWithAnimation(document.getElementById('clientResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('quoteForm'), false);
+      toggleVisibilityWithAnimation(document.getElementById('quoteResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('orderResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('deliveryResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('invoiceResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('accountingResult'), false);
+      
+      // Réinitialiser les boutons
+      document.getElementById('createQuoteBtn').disabled = true;
+      document.getElementById('convertOrderBtn').disabled = true;
+      document.getElementById('deliveryBtn').disabled = true;
+      document.getElementById('invoiceBtn').disabled = true;
+      document.getElementById('accountingBtn').disabled = true;
+      
+      // Réinitialiser l'état
+      simulationState = {
+        clientCreated: false,
+        quoteCreated: false,
+        orderCreated: false,
+        deliveryProcessed: false,
+        invoiceCreated: false,
+        accountingEntryCreated: false
+      };
+
+      // Réinitialiser les visuels des étapes
+      resetStepVisuals('vente');
+
+      // Réinitialiser le formulaire de devis
+      const quoteItemsTableBody = document.getElementById('quoteItemsTable').getElementsByTagName('tbody')[0];
+      quoteItemsTableBody.innerHTML = `
+        <tr data-item-id="1">
+          <td>
+            <select class="form-select form-select-sm" id="quoteItem1" required onchange="updatePriceFromSelection(this)">
+              <option value="">Sélectionner</option>
+              <option value="Ordinateur portable Pro" data-price="1200">Ordinateur portable Pro</option>
+              <option value="Écran 24''" data-price="250">Écran 24''</option>
+              <option value="Clavier sans fil" data-price="80">Clavier sans fil</option>
+              <option value="Souris ergonomique" data-price="40">Souris ergonomique</option>
+            </select>
+          </td>
+          <td><input type="number" class="form-control form-control-sm" id="quoteQty1" value="1" min="1" required></td>
+          <td><input type="number" class="form-control form-control-sm" id="quotePrice1" value="1200" step="0.01" required></td>
+          <td><span id="quoteTotal1">1200.00</span></td>
+          <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeQuoteItem(this)"><i class="bi bi-trash"></i></button></td>
+        </tr>
+      `;
+      quoteItemCounter = 1; // Réinitialiser le compteur d'articles
+      calculateQuoteTotals(); // Recalculer les totaux
+
+      // Réinitialiser le formulaire client
+      document.getElementById('clientName').value = 'Dupont SA';
+      document.getElementById('clientAddress').value = '12 Rue de Paris, 75001';
+      document.getElementById('clientSiret').value = '12345678900012';
+    }
+
+    // Fonctions de simulation pour le processus d'achat
+    function simulatePurchaseStep(step) {
+      switch(step) {
+        case 'detectNeed':
+          toggleVisibilityWithAnimation(document.getElementById('needResult'), true);
+          document.getElementById('needResult').innerHTML = `
+            <div class="alert alert-info mt-3 animated-alert">
+              <p><i class="bi bi-exclamation-circle-fill me-2"></i>Le système détecte que le stock de l'article "Écran 24"" est en dessous du seuil minimum (5 unités). Stock actuel: 3 unités.</p>
+              <p>Une demande de réapprovisionnement est initiée.</p>
+            </div>
+          `;
+          purchaseSimulationState.needDetected = true;
+          document.getElementById('createRequestBtn').disabled = false;
+          markStepCompleted('achat', 1);
+          break;
+          
+        case 'createRequest':
+          if (!purchaseSimulationState.needDetected) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord simuler la détection du besoin.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('requestResult'), true);
+          document.getElementById('requestResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>La demande d'achat <strong>DA-2023-001</strong> a été créée.</p>
+              <p>Détails:</p>
+              <ul>
+                <li>Article: Écran 24"</li>
+                <li>Quantité: 10 unités</li>
+                <li>Motif: Niveau de stock bas (3 unités, seuil minimum: 5)</li>
+              </ul>
+            </div>
+          `;
+          purchaseSimulationState.requestCreated = true;
+          document.getElementById('approveRequestBtn').disabled = false;
+          markStepCompleted('achat', 2);
+          break;
+          
+        case 'approveRequest':
+          if (!purchaseSimulationState.requestCreated) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord créer la demande d\'achat.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('approvalResult'), true);
+          document.getElementById('approvalResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>La demande d'achat <strong>DA-2023-001</strong> a été approuvée par le responsable.</p>
+              <p>Commentaire: "Approuvé - Budget disponible"</p>
+            </div>
+          `;
+          purchaseSimulationState.requestApproved = true;
+          document.getElementById('createPOBtn').disabled = false;
+          markStepCompleted('achat', 3);
+          break;
+          
+        case 'createPO':
+          if (!purchaseSimulationState.requestApproved) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord valider la demande d\'achat.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('poResult'), true);
+          document.getElementById('poResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>Le bon de commande <strong>BC-2023-001</strong> a été créé pour le fournisseur "TechDistrib".</p>
+              <p>Détails:</p>
+              <ul>
+                <li>Article: Écran 24"</li>
+                <li>Quantité: 10 unités</li>
+                <li>Prix unitaire: 250,00 € HT</li>
+                <li>Total HT: 2 500,00 €</li>
+                <li>Livraison prévue: ${new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR')}</li>
+              </ul>
+            </div>
+          `;
+          purchaseSimulationState.poCreated = true;
+          document.getElementById('receiveGoodsBtn').disabled = false;
+          markStepCompleted('achat', 4);
+          break;
+          
+        case 'receiveGoods':
+          if (!purchaseSimulationState.poCreated) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord créer le bon de commande.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('receptionResult'), true);
+          document.getElementById('receptionResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>La réception <strong>REC-2023-001</strong> a été enregistrée.</p>
+              <p>Détails:</p>
+              <ul>
+                <li>Bon de commande: BC-2023-001</li>
+                <li>Article: Écran 24"</li>
+                <li>Quantité reçue: 10 unités</li>
+                <li>Stock mis à jour: 3 → 13 unités</li>
+              </ul>
+            </div>
+          `;
+          purchaseSimulationState.goodsReceived = true;
+          document.getElementById('supplierInvoiceBtn').disabled = false;
+          markStepCompleted('achat', 5);
+          break;
+          
+        case 'processSupplierInvoice':
+          if (!purchaseSimulationState.goodsReceived) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord simuler la réception des marchandises.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('supplierInvoiceResult'), true);
+          document.getElementById('supplierInvoiceResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>La facture fournisseur <strong>FAC-F-2023-001</strong> a été enregistrée.</p>
+              <p>Détails:</p>
+              <ul>
+                <li>Fournisseur: TechDistrib</li>
+                <li>Montant HT: 2 500,00 €</li>
+                <li>TVA (20%): 500,00 €</li>
+                <li>Montant TTC: 3 000,00 €</li>
+                <li>Échéance: ${new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR')}</li>
+              </ul>
+              <button class="btn btn-sm btn-outline-primary mt-2" onclick="viewDocument('Facture Fournisseur', 'FAC-F-2023-001')">
+                <i class="bi bi-eye"></i> Voir la facture
+              </button>
+            </div>
+          `;
+          purchaseSimulationState.invoiceProcessed = true;
+          document.getElementById('paymentBtn').disabled = false;
+          markStepCompleted('achat', 6);
+          break;
+          
+        case 'processPayment':
+          if (!purchaseSimulationState.invoiceProcessed) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord enregistrer la facture fournisseur.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('paymentResult'), true);
+          document.getElementById('paymentResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>Le paiement de la facture <strong>FAC-F-2023-001</strong> a été enregistré.</p>
+              <p>Détails:</p>
+              <ul>
+                <li>Montant: 3 000,00 €</li>
+                <li>Date de paiement: ${new Date().toLocaleDateString('fr-FR')}</li>
+                <li>Mode de paiement: Virement bancaire</li>
+                <li>Référence: VIR-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}</li>
+              </ul>
+              <p>L'écriture comptable correspondante a été générée automatiquement.</p>
+            </div>
+          `;
+          purchaseSimulationState.paymentDone = true;
+          markStepCompleted('achat', 7);
+          break;
+      }
+    }
+
+    /**
+     * Réinitialise l'état et l'interface utilisateur de la simulation d'achat.
+     */
+    function resetPurchaseSimulation() {
+      // Réinitialiser l'UI
+      toggleVisibilityWithAnimation(document.getElementById('needResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('requestResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('approvalResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('poResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('receptionResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('supplierInvoiceResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('paymentResult'), false);
+      
+      // Réinitialiser les boutons
+      document.getElementById('createRequestBtn').disabled = true;
+      document.getElementById('approveRequestBtn').disabled = true;
+      document.getElementById('createPOBtn').disabled = true;
+      document.getElementById('receiveGoodsBtn').disabled = true;
+      document.getElementById('supplierInvoiceBtn').disabled = true;
+      document.getElementById('paymentBtn').disabled = true;
+      
+      // Réinitialiser l'état
+      purchaseSimulationState = {
+        needDetected: false,
+        requestCreated: false,
+        requestApproved: false,
+        poCreated: false,
+        goodsReceived: false,
+        invoiceProcessed: false,
+        paymentDone: false
+      };
+
+      // Réinitialiser les visuels des étapes
+      resetStepVisuals('achat');
+    }
+
+    // Fonctions de simulation pour le processus RH
+    function simulateHRStep(step) {
+      switch(step) {
+        case 'recruitment':
+          toggleVisibilityWithAnimation(document.getElementById('recruitmentForm'), true);
+          break;
+          
+        case 'createContract':
+          const employeeName = document.getElementById('employeeName').value;
+          const employeeFirstName = document.getElementById('employeeFirstName').value;
+          const employeePosition = document.getElementById('employeePosition').value;
+          const employeeHireDate = document.getElementById('employeeHireDate').value;
+          const employeeSalary = document.getElementById('employeeSalary').value;
+          const employeeDepartment = document.getElementById('employeeDepartment').value;
+
+          if (!employeeName || !employeeFirstName || !employeePosition || !employeeHireDate || !employeeSalary || !employeeDepartment) {
+            showCustomAlert('Erreur de saisie', 'Veuillez remplir tous les champs du formulaire d\'employé.');
+            return;
+          }
+
+          toggleVisibilityWithAnimation(document.getElementById('contractResult'), true);
+          document.getElementById('contractResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>Le contrat a été créé pour <strong>${employeeFirstName} ${employeeName}</strong>.</p>
+              <p>Détails du contrat:</p>
+              <ul>
+                <li>Type: CDI</li>
+                <li>Poste: ${employeePosition}</li>
+                <li>Salaire brut annuel: ${parseFloat(employeeSalary).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</li>
+                <li>Date d'effet: ${new Date(employeeHireDate).toLocaleDateString('fr-FR')}</li>
+                <li>Période d'essai: 3 mois</li>
+              </ul>
+              <button class="btn btn-sm btn-outline-primary mt-2" onclick="viewDocument('Contrat', 'CONTRAT-${employeeName.toUpperCase()}-${employeeFirstName.toUpperCase()}')">
+                <i class="bi bi-eye"></i> Voir le contrat
+              </button>
+            </div>
+          `;
+          hrSimulationState.contractCreated = true;
+          document.getElementById('manageLeaveBtn').disabled = false;
+          markStepCompleted('rh', 2);
+          break;
+          
+        case 'manageLeave':
+          if (!hrSimulationState.contractCreated) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord créer le contrat de l\'employé.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('leaveResult'), true);
+          document.getElementById('leaveResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>La demande de congés a été enregistrée.</p>
+              <p>Détails:</p>
+              <ul>
+                <li>Employé: Sophie Martin</li>
+                <li>Type: Congés payés</li>
+                <li>Du: ${new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR')}</li>
+                <li>Au: ${new Date(new Date().getTime() + 28 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR')}</li>
+                <li>Durée: 10 jours ouvrés</li>
+                <li>Statut: Approuvé</li>
+              </ul>
+            </div>
+          `;
+          hrSimulationState.leaveManaged = true;
+          document.getElementById('processPayrollBtn').disabled = false;
+          markStepCompleted('rh', 3);
+          break;
+          
+        case 'processPayroll':
+          if (!hrSimulationState.leaveManaged) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord gérer les congés.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('payrollResult'), true);
+          document.getElementById('payrollResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>Le bulletin de paie a été généré.</p>
+              <p>Détails pour Sophie Martin - Juin 2023:</p>
+              <table class="table table-sm data-table">
+                <thead>
+                  <tr>
+                    <th>Libellé</th>
+                    <th>Base (€)</th>
+                    <th>Taux (%)</th>
+                    <th>Montant (€)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Salaire de base</td>
+                    <td>2916.67</td>
+                    <td></td>
+                    <td>2916.67</td>
+                  </tr>
+                  <tr>
+                    <td>Cotisations sociales salariales</td>
+                    <td></td>
+                    <td>22</td>
+                    <td>-641.67</td>
+                  </tr>
+                  <tr>
+                    <td>Net imposable</td>
+                    <td></td>
+                    <td></td>
+                    <td>2275.00</td>
+                  </tr>
+                  <tr>
+                    <td>Impôt sur le revenu (PAS)</td>
+                    <td></td>
+                    <td>5</td>
+                    <td>-113.75</td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">Net à payer</td>
+                    <td></td>
+                    <td></td>
+                    <td class="fw-bold">2161.25</td>
+                  </tr>
+                </tbody>
+              </table>
+              <button class="btn btn-sm btn-outline-primary mt-2" onclick="viewDocument('Bulletin de Paie', 'PAIE-2023-06-MARTIN')">
+                <i class="bi bi-eye"></i> Voir le bulletin
+              </button>
+            </div>
+          `;
+          hrSimulationState.payrollProcessed = true;
+          document.getElementById('hrAccountingBtn').disabled = false;
+          markStepCompleted('rh', 4);
+          break;
+
+        case 'hrAccounting':
+          if (!hrSimulationState.payrollProcessed) {
+            showCustomAlert('Erreur', 'Veuillez d\'abord traiter la paie.');
+            return;
+          }
+          toggleVisibilityWithAnimation(document.getElementById('hrAccountingResult'), true);
+          document.getElementById('hrAccountingResult').innerHTML = `
+            <div class="alert alert-success mt-3 animated-alert">
+              <p><i class="bi bi-check-circle-fill me-2"></i>L'écriture comptable liée à la paie a été générée:</p>
+              <table class="table table-sm data-table">
+                <thead>
+                  <tr>
+                    <th>Compte</th>
+                    <th>Libellé</th>
+                    <th>Débit (€)</th>
+                    <th>Crédit (€)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>641000</td>
+                    <td>Salaires et traitements</td>
+                    <td>2916.67</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>421000</td>
+                    <td>Personnel - Rémunérations dues</td>
+                    <td></td>
+                    <td>2161.25</td>
+                  </tr>
+                  <tr>
+                    <td>431000</td>
+                    <td>Organismes sociaux</td>
+                    <td></td>
+                    <td>641.67</td>
+                  </tr>
+                  <tr>
+                    <td>442100</td>
+                    <td>État - Prélèvement à la source</td>
+                    <td></td>
+                    <td>113.75</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          `;
+          hrSimulationState.accountingImpactDone = true;
+          markStepCompleted('rh', 5);
+          break;
+      }
+    }
+
+    /**
+     * Valide et enregistre les informations de l'employé.
+     */
+    function saveEmployee() {
+      const employeeName = document.getElementById('employeeName').value;
+      const employeeFirstName = document.getElementById('employeeFirstName').value;
+      const employeePosition = document.getElementById('employeePosition').value;
+      const employeeHireDate = document.getElementById('employeeHireDate').value;
+      const employeeSalary = document.getElementById('employeeSalary').value;
+      const employeeDepartment = document.getElementById('employeeDepartment').value;
+
+      if (!employeeName || !employeeFirstName || !employeePosition || !employeeHireDate || !employeeSalary || !employeeDepartment) {
+        showCustomAlert('Erreur de saisie', 'Veuillez remplir tous les champs du formulaire d\'employé.');
+        return;
+      }
+
+      toggleVisibilityWithAnimation(document.getElementById('recruitmentResult'), true);
+      document.getElementById('recruitmentResult').innerHTML = `
+        <div class="alert alert-success mt-3 animated-alert">
+          <p><i class="bi bi-check-circle-fill me-2"></i>L'employé <strong>${employeeFirstName} ${employeeName}</strong> a été recruté avec succès.</p>
+          <p>Poste: ${employeePosition}, Service: ${employeeDepartment}</p>
+        </div>
+      `;
+      toggleVisibilityWithAnimation(document.getElementById('recruitmentForm'), false);
+      hrSimulationState.employeeCreated = true;
+      document.getElementById('createContractBtn').disabled = false;
+      markStepCompleted('rh', 1);
+    }
+
+    /**
+     * Réinitialise l'état et l'interface utilisateur de la simulation RH.
+     */
+    function resetHRSimulation() {
+      // Réinitialiser l'UI
+      toggleVisibilityWithAnimation(document.getElementById('recruitmentForm'), false);
+      toggleVisibilityWithAnimation(document.getElementById('recruitmentResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('contractResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('leaveResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('payrollResult'), false);
+      toggleVisibilityWithAnimation(document.getElementById('hrAccountingResult'), false);
+      
+      // Réinitialiser les boutons
+      document.getElementById('createContractBtn').disabled = true;
+      document.getElementById('manageLeaveBtn').disabled = true;
+      document.getElementById('processPayrollBtn').disabled = true;
+      document.getElementById('hrAccountingBtn').disabled = true;
+      
+      // Réinitialiser l'état
+      hrSimulationState = {
+        employeeCreated: false,
+        contractCreated: false,
+        leaveManaged: false,
+        payrollProcessed: false,
+        accountingImpactDone: false
+      };
+
+      // Réinitialiser les visuels des étapes
+      resetStepVisuals('rh');
+
+      // Réinitialiser le formulaire employé
+      document.getElementById('employeeName').value = 'Martin';
+      document.getElementById('employeeFirstName').value = 'Sophie';
+      document.getElementById('employeePosition').value = 'Développeur';
+      document.getElementById('employeeHireDate').value = '2023-06-01';
+      document.getElementById('employeeSalary').value = '35000';
+      document.getElementById('employeeDepartment').value = 'IT';
+    }
+  </script>
+</body>
+</html>
